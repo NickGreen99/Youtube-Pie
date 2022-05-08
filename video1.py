@@ -39,25 +39,29 @@ if not credentials or not credentials.valid:
 
 
 
-
-
-
-
 youtube = build("youtube","v3", 
     credentials=credentials
-    #developerKey= api_key
 )
+nextPageToken = None
+channel_ids = {}
+while True:
 
-request = youtube.subscriptions().list(
-        part = "snippet,contentDetails",
-        channelId = "UC5ZZcLjzSCPga1LRYXylBhA",
-        prettyPrint = True,
-        alt = "json"
+    subcriptions_request = youtube.subscriptions().list(
+            part = "snippet,contentDetails",
+            channelId = "UC5ZZcLjzSCPga1LRYXylBhA",
+            alt = "json",
+            maxResults = 50,
+            pageToken = nextPageToken
+        )
 
-    )
 
-response = request.execute()
+    response = subcriptions_request.execute()
 
-for item in response['items']:
-    print(item['snippet'])
-    print()
+    for item in response['items']:
+        print(item['snippet']["resourceId"])
+        print()
+
+    nextPageToken = response.get('nextPageToken')
+
+    if not nextPageToken:
+        break
