@@ -14,7 +14,7 @@ credentials = None
 # token.pickle stores the user's credentials from previously succesful login
 if os.path.exists("token.pickle"):
     print("Loading Credentials from File...")
-    with open("token.pickle","rb") as token:
+    with open("token.pickle", "rb") as token:
         credentials = pickle.load(token)
 
 # if there are no valid credentials available, then either refresh the token or create new one
@@ -35,9 +35,9 @@ if not credentials or not credentials.valid:
     credentials = flow.credentials
 
     # Save the credentiasls for the next run
-    with open("token.pickle","wb") as f:
+    with open("token.pickle", "wb") as f:
         print("Saving Credentials for future Use...")
-        pickle.dump(credentials,f)
+        pickle.dump(credentials, f)
 
     print(credentials.to_json())
 
@@ -61,8 +61,8 @@ while True:
     if not nextPageToken:
         break
 
-#So far only for first
-topics=[]
+# So far only for first
+topics = {}
 for channel in channels:
     channel_id = channel['resourceId']['channelId']
     request = youtube.channels().list(
@@ -71,28 +71,15 @@ for channel in channels:
         prettyPrint=True,
     )
     response = request.execute()
-    categories = response['items'][0]['topicDetails']['topicCategories']
-    for category in categories:
-        topics.append(category.split('/')[-1])
-    break
+    try:
+        categories = response['items'][0]['topicDetails']['topicCategories']
+
+        for category in categories:
+            key = category.split('/')[-1]
+            if key in topics.keys():
+                topics[key] = topics[key] + 1
+            else:
+                topics.update({key: 1})
+    except:
+        continue
 print(topics)
-# print(channels)
-# request = youtube.subscriptions().list(
-#     part="snippet,contentDetails",
-#     channelId="UCn3kl6oCqZIaloJsVBgQLpw",
-#     prettyPrint=True,
-#     alt="json",
-#     maxResults=50,
-#     pageToken=nextPageToken
-# )
-# response = request.execute()
-# print(response['items'][0]['snippet'])
-# y_id=response['items'][0]['snippet']['resourceId']['channelId']
-# print('\n')
-# request = youtube.channels().list(
-#     part="snippet,topicDetails",
-#     id=y_id,
-#     prettyPrint=True,
-# )
-# response = request.execute()
-# print(response)
