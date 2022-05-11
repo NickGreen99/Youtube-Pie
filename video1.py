@@ -44,21 +44,39 @@ if not credentials or not credentials.valid:
 youtube = build("youtube", 'v3', credentials=credentials)
 
 nextPageToken=None
-x=[]
-while True:
-    request = youtube.subscriptions().list(
-        part="snippet,contentDetails",
-        channelId="UCn3kl6oCqZIaloJsVBgQLpw",
-        prettyPrint=True,
-        alt="json",
-        maxResults=50,
-        pageToken=nextPageToken
-    )
-    response=request.execute()
-    for item in response['items']:
-        x.append(item['snippet'])
-    nextPageToken = response.get('nextPageToken')
-    if not nextPageToken:
-        break
-print(x)
-
+# x=[]
+# while True:
+#     request = youtube.subscriptions().list(
+#         part="snippet,contentDetails",
+#         channelId="UCn3kl6oCqZIaloJsVBgQLpw",
+#         prettyPrint=True,
+#         alt="json",
+#         maxResults=50,
+#         pageToken=nextPageToken
+#     )
+#     response=request.execute()
+#     for item in response['items']:
+#         x.append(item['snippet'])
+#     nextPageToken = response.get('nextPageToken')
+#     if not nextPageToken:
+#         break
+# print(x)
+request = youtube.subscriptions().list(
+    part="snippet,contentDetails",
+    channelId="UCn3kl6oCqZIaloJsVBgQLpw",
+    prettyPrint=True,
+    alt="json",
+    maxResults=50,
+    pageToken=nextPageToken
+)
+response = request.execute()
+print(response['items'][0]['snippet'])
+y_id=response['items'][0]['snippet']['resourceId']['channelId']
+print('\n')
+request = youtube.channels().list(
+    part="snippet,topicDetails",
+    id=y_id,
+    prettyPrint=True,
+)
+response = request.execute()
+print(response)
