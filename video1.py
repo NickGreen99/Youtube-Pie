@@ -1,67 +1,64 @@
-
-import os
-import pickle
+from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
-from googleapiclient.discovery import build
+import pickle
+import os
+import json
+
+API_KEY = 'AIzaSyD6NtHkQbmFYG13fvkQxH4EiWld7AKKYlI'
+
+##  Oauth 2.0 authentication
 
 credentials = None
 
-# token.pickle stores the user's credentials from previously successful logins
-if os.path.exists('token.pickle'):
-    print('Loading Credentials From File...')
-    with open('token.pickle', 'rb') as token:
+# token.pickle stores the user's credentials from previously succesful login
+if os.path.exists("token.pickle"):
+    print("Loading Credentials from File...")
+    with open("token.pickle","rb") as token:
         credentials = pickle.load(token)
 
-
-# If there are no valid credentials available, then either refresh the token or log in.
+# if there are no valid credentials available, then either refresh the token or create new one
 if not credentials or not credentials.valid:
     if credentials and credentials.expired and credentials.refresh_token:
-        print('Refreshing Access Token...')
+        print("Refreshing Access Token...")
         credentials.refresh(Request())
     else:
-        print('Fetching New Tokens...')
-        flow = InstalledAppFlow.from_client_secrets_file(
-            'client_secrets.json',
-            scopes=[
-                'https://www.googleapis.com/auth/youtube.readonly'
-            ]
-        )
+        print("Fetching new Tokens...")
+    # Select the scopes of our app
+    flow = InstalledAppFlow.from_client_secrets_file(
+        "client_secrets.json", scopes=["https://www.googleapis.com/auth/youtube.readonly"])
 
-        flow.run_local_server(port=8080, prompt='consent',
-                              authorization_prompt_message='')
-        credentials = flow.credentials
+    # Create server (localhost this time) to prompt users to allow us to view their YoutTube data
+    flow.run_local_server(port=8080, prompt="consent")
 
-        # Save the credentials for the next run
-        with open('token.pickle', 'wb') as f:
-            print('Saving Credentials for Future Use...')
-            pickle.dump(credentials, f)
+    # Acquire credentials
+    credentials = flow.credentials
 
+    # Save the credentiasls for the next run
+    with open("token.pickle","wb") as f:
+        print("Saving Credentials for future Use...")
+        pickle.dump(credentials,f)
 
+    print(credentials.to_json())
 
-youtube = build("youtube","v3", 
-    credentials=credentials
-)
-nextPageToken = None
-channel_ids = {}
+youtube = build("youtube", 'v3', credentials=credentials)
+
+nextPageToken=None
+x=[]
 while True:
-
-    subcriptions_request = youtube.subscriptions().list(
-            part = "snippet,contentDetails",
-            channelId = "UC5ZZcLjzSCPga1LRYXylBhA",
-            alt = "json",
-            maxResults = 50,
-            pageToken = nextPageToken
-        )
-
-
-    response = subcriptions_request.execute()
-
+    request = youtube.subscriptions().list(
+        part="snippet,contentDetails",
+        channelId="UCn3kl6oCqZIaloJsVBgQLpw",
+        prettyPrint=True,
+        alt="json",
+        maxResults=50,
+        pageToken=nextPageToken
+    )
+    response=request.execute()
     for item in response['items']:
-        print(item['snippet']["resourceId"])
-        print()
-
+        x.append(item['snippet'])
     nextPageToken = response.get('nextPageToken')
-
     if not nextPageToken:
         break
+print(x)
+
