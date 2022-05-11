@@ -43,40 +43,56 @@ if not credentials or not credentials.valid:
 
 youtube = build("youtube", 'v3', credentials=credentials)
 
-nextPageToken=None
-# x=[]
-# while True:
-#     request = youtube.subscriptions().list(
-#         part="snippet,contentDetails",
-#         channelId="UCn3kl6oCqZIaloJsVBgQLpw",
-#         prettyPrint=True,
-#         alt="json",
-#         maxResults=50,
-#         pageToken=nextPageToken
-#     )
-#     response=request.execute()
-#     for item in response['items']:
-#         x.append(item['snippet'])
-#     nextPageToken = response.get('nextPageToken')
-#     if not nextPageToken:
-#         break
-# print(x)
-request = youtube.subscriptions().list(
-    part="snippet,contentDetails",
-    channelId="UCn3kl6oCqZIaloJsVBgQLpw",
-    prettyPrint=True,
-    alt="json",
-    maxResults=50,
-    pageToken=nextPageToken
-)
-response = request.execute()
-print(response['items'][0]['snippet'])
-y_id=response['items'][0]['snippet']['resourceId']['channelId']
-print('\n')
-request = youtube.channels().list(
-    part="snippet,topicDetails",
-    id=y_id,
-    prettyPrint=True,
-)
-response = request.execute()
-print(response)
+nextPageToken = None
+channels = []
+while True:
+    request = youtube.subscriptions().list(
+        part="snippet,contentDetails",
+        channelId="UCn3kl6oCqZIaloJsVBgQLpw",
+        prettyPrint=True,
+        alt="json",
+        maxResults=50,
+        pageToken=nextPageToken
+    )
+    response = request.execute()
+    for item in response['items']:
+        channels.append(item['snippet'])
+    nextPageToken = response.get('nextPageToken')
+    if not nextPageToken:
+        break
+
+#So far only for first
+topics=[]
+for channel in channels:
+    channel_id = channel['resourceId']['channelId']
+    request = youtube.channels().list(
+        part="snippet,topicDetails",
+        id=channel_id,
+        prettyPrint=True,
+    )
+    response = request.execute()
+    categories = response['items'][0]['topicDetails']['topicCategories']
+    for category in categories:
+        topics.append(category.split('/')[-1])
+    break
+print(topics)
+# print(channels)
+# request = youtube.subscriptions().list(
+#     part="snippet,contentDetails",
+#     channelId="UCn3kl6oCqZIaloJsVBgQLpw",
+#     prettyPrint=True,
+#     alt="json",
+#     maxResults=50,
+#     pageToken=nextPageToken
+# )
+# response = request.execute()
+# print(response['items'][0]['snippet'])
+# y_id=response['items'][0]['snippet']['resourceId']['channelId']
+# print('\n')
+# request = youtube.channels().list(
+#     part="snippet,topicDetails",
+#     id=y_id,
+#     prettyPrint=True,
+# )
+# response = request.execute()
+# print(response)
