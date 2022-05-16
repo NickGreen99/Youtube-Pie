@@ -7,11 +7,11 @@ import json
 
 API_KEY = 'AIzaSyD6NtHkQbmFYG13fvkQxH4EiWld7AKKYlI'
 
-##  Oauth 2.0 authentication
+# Oauth 2.0 authentication
 
 credentials = None
 
-# token.pickle stores the user's credentials from previously succesful login
+# token.pickle stores the user's credentials from previously successful login
 if os.path.exists("token.pickle"):
     print("Loading Credentials from File...")
     with open("token.pickle", "rb") as token:
@@ -43,6 +43,7 @@ if not credentials or not credentials.valid:
 
 youtube = build("youtube", 'v3', credentials=credentials)
 
+# Get all account subscriptions (use paging)
 nextPageToken = None
 channels = []
 while True:
@@ -54,32 +55,64 @@ while True:
         maxResults=50,
         pageToken=nextPageToken
     )
-    response = request.execute()
-    for item in response['items']:
+    response_subscriptions = request.execute()
+    for item in response_subscriptions['items']:
         channels.append(item['snippet'])
-    nextPageToken = response.get('nextPageToken')
+    nextPageToken = response_subscriptions.get('nextPageToken')
     if not nextPageToken:
         break
 
-# So far only for first
-topics = {}
+categories = {}
+categoryname=[]
 for channel in channels:
     channel_id = channel['resourceId']['channelId']
+    # get channel uploads
     request = youtube.channels().list(
-        part="snippet,topicDetails",
-        id=channel_id,
-        prettyPrint=True,
+        part="contentDetails",
+        id=channel_id
     )
-    response = request.execute()
-    try:
-        categories = response['items'][0]['topicDetails']['topicCategories']
+    response_uploads = request.execute()
 
-        for category in categories:
-            key = category.split('/')[-1]
-            if key in topics.keys():
-                topics[key] = topics[key] + 1
-            else:
-                topics.update({key: 1})
+    try:
+        # get video ids
+        uploads_id = response_uploads['items'][0]['contentDetails']['relatedPlaylists']['uploads']
+        request = youtube.playlistItems().list(
+            part='snippet',
+            playlistId=uploads_id,
+            maxResults=1
+        )
+        response_videoid = request.execute()
+        videoid = response_videoid['items'][0]['snippet']['resourceId']['videoId']
+
+        # get video category id
+        request = youtube.videos().list(
+            part='snippet',
+            id=videoid
+        )
+        response_categoryid = request.execute()
+        categoryid = response_categoryid['items'][0]['snippet']['categoryId']
+
+        # get video category name
+        request = youtube.videoCategories().list(
+            part='snippet',
+            id=categoryid
+        )
+        response_categoryname = request.execute()
+        categoryname.append(response_categoryname['items'][0]['snippet']['title'])
+
     except:
         continue
-print(topics)
+
+# create dictionary to keep track of category instances
+for key in categoryname:
+    if key in categories.keys():
+        categories[key] = categories[key] + 1
+    else:
+        categories.update(({key:1}))
+
+# sort dictionary and create list of your preferred categories
+ordered_cat = dict(sorted(categories.items(),key=lambda item: item[1]))
+category_list = list(ordered_cat.keys())
+category_list.reverse()
+print(category_list)
+
