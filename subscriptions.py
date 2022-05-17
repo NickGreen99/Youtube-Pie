@@ -3,11 +3,29 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 import pickle
 import os
-import json
 
-API_KEY = 'AIzaSyD6NtHkQbmFYG13fvkQxH4EiWld7AKKYlI'
+
+#API_KEY = 'AIzaSyD6NtHkQbmFYG13fvkQxH4EiWld7AKKYlI'
+
+
+def create_category_dict(category_list):
+    categories_dict = {}
+    for key in category_list:
+        if key in categories_dict.keys():
+            categories_dict[key] = categories_dict[key] + 1
+        else:
+            categories_dict.update(({key: 1}))
+    return categories_dict
+
+
+def create_preferred_list(categories_dict):
+    ordered_cat = dict(sorted(categories_dict.items(), key=lambda item: item[1]))
+    category_list = list(ordered_cat.keys())
+    category_list.reverse()
+    return category_list
 
 # Oauth 2.0 authentication
+
 
 credentials = None
 
@@ -43,15 +61,66 @@ if not credentials or not credentials.valid:
 
 youtube = build("youtube", 'v3', credentials=credentials)
 
+# Get 'liked videos' playlist from account
+request = youtube.channels().list(
+    part="contentDetails",
+    mine="True",
+)
+response_liked = request.execute()
+
+liked_videos = []
+nextPageToken = None
+i = 1
+while True:
+    try:
+        # get video ids
+        liked_id = response_liked['items'][0]['contentDetails']['relatedPlaylists']['likes']
+        request = youtube.playlistItems().list(
+            part='snippet',
+            playlistId=liked_id,
+            maxResults=50,
+            pageToken=nextPageToken
+        )
+        response_videoid = request.execute()
+        for i in range(0, len(response_videoid['items'])):
+            videoid = response_videoid['items'][i]['snippet']['resourceId']['videoId']
+            liked_videos.append(videoid)
+        nextPageToken = response_videoid.get('nextPageToken')
+        if not nextPageToken:
+            break
+    except:
+        continue
+liked_categoryname = []
+for video in liked_videos:
+    try:
+        # get video category id
+        request = youtube.videos().list(
+            part='snippet',
+            id=video
+        )
+        response_categoryid = request.execute()
+        categoryid = response_categoryid['items'][0]['snippet']['categoryId']
+
+        # get video category name
+        request = youtube.videoCategories().list(
+            part='snippet',
+            id=categoryid
+        )
+        response_categoryname = request.execute()
+        liked_categoryname.append(response_categoryname['items'][0]['snippet']['title'])
+    except:
+        continue
+categories = create_category_dict(liked_categoryname)
+preferences = create_preferred_list(categories)
+
+
 # Get all account subscriptions (use paging)
 nextPageToken = None
 channels = []
 while True:
     request = youtube.subscriptions().list(
         part="snippet,contentDetails",
-        channelId="UCn3kl6oCqZIaloJsVBgQLpw",
-        prettyPrint=True,
-        alt="json",
+        mine="True",
         maxResults=50,
         pageToken=nextPageToken
     )
@@ -62,8 +131,7 @@ while True:
     if not nextPageToken:
         break
 
-categories = {}
-categoryname=[]
+categoryname = []
 for channel in channels:
     channel_id = channel['resourceId']['channelId']
     # get channel uploads
@@ -104,15 +172,7 @@ for channel in channels:
         continue
 
 # create dictionary to keep track of category instances
-for key in categoryname:
-    if key in categories.keys():
-        categories[key] = categories[key] + 1
-    else:
-        categories.update(({key:1}))
+categories = create_category_dict(categoryname)
 
 # sort dictionary and create list of your preferred categories
-ordered_cat = dict(sorted(categories.items(),key=lambda item: item[1]))
-category_list = list(ordered_cat.keys())
-category_list.reverse()
-print(category_list)
-
+preferences = create_preferred_list(categories)
