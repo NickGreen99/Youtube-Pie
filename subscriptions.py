@@ -4,10 +4,6 @@ from google.auth.transport.requests import Request
 import pickle
 import os
 
-
-#API_KEY = 'AIzaSyD6NtHkQbmFYG13fvkQxH4EiWld7AKKYlI'
-
-
 def create_category_dict(category_list):
     categories_dict = {}
     for key in category_list:
@@ -39,6 +35,8 @@ def subscribed_channels(youtube):
         response_subscriptions = request.execute()
         for item in response_subscriptions['items']:
             channels.append(item['snippet'])
+        if len(channels) >= 200:
+            break
         nextPageToken = response_subscriptions.get('nextPageToken')
         if not nextPageToken:
             break

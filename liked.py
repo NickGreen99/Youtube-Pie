@@ -39,6 +39,8 @@ def liked_playlist(youtube):
             for i in range(0, len(response_videoid['items'])):
                 videoid = response_videoid['items'][i]['snippet']['resourceId']['videoId']
                 liked_videos.append(videoid)
+            if len(liked_videos) >= 200:
+                break
             nextPageToken = response_videoid.get('nextPageToken')
             if not nextPageToken:
                 break

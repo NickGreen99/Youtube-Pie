@@ -3,13 +3,11 @@ from google.auth.transport.requests import Request
 import pickle
 import os
 
-
-
-
 def oauth():
 
     credentials = None
     # token.pickle stores the user's credentials from previously successful login
+
     if os.path.exists("token.pickle"):
         print("Loading Credentials from File...")
         with open("token.pickle", "rb") as token:
