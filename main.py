@@ -1,3 +1,4 @@
+'''
 from googleapiclient.discovery import build
 import liked
 import subscriptions
@@ -14,3 +15,4 @@ if __name__== "__main__":
     if subscribed:
         sub = subscriptions.subscribed_channels(youtube)
         print(sub)
+'''
