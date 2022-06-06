@@ -7,31 +7,34 @@ import authentication
 app = Flask(__name__)
 
 
+@app.route('/success/<pref>')
+def success(pref):
+    return 'Your preferences: %s' % str(pref)
+
+
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     if request.method == 'POST':
         if request.form.get('log') == "Login using Google account":
             cred = authentication.oauth()
             yt = build("youtube", 'v3', credentials=cred)
-            return redirect(url_for('index', youtube=yt))
-    return render_template("login.html")
+            global youtube
+            youtube = yt
+            return redirect(url_for('index'))
+    else:
+        return render_template("login.html")
 
 
-@app.route('/index/<youtube>', methods=['POST', 'GET'])
-def index(youtube):
-    print(request.method)
+@app.route('/index/', methods=['POST', 'GET'])
+def index():
     if request.method == 'POST':
-        print("wow")
         if request.form.get('sub') == 'Subscriptions':
-            print(youtube)
             sub = subscriptions.subscribed_channels(youtube)
-
-            return str(sub)  # do something
-        elif request.form.get('liked') == 'Liked Playlists':
+            return redirect(url_for('success', pref=sub)) # do something
+        if request.form.get('liked') == 'Liked Playlists':
             liked_pl = liked.liked_playlist(youtube)
-            return str(liked_pl)  # do something else
-    elif request.method == 'GET':
-        print("a")
+            return redirect(url_for('success', pref=liked_pl)) # do something
+    else:
         return render_template("index.html")
 
 
