@@ -35,7 +35,7 @@ def subscribed_channels(youtube):
         response_subscriptions = request.execute()
         for item in response_subscriptions['items']:
             channels.append(item['snippet'])
-        if len(channels) >= 100:
+        if len(channels) >= 50:
             break
         nextPageToken = response_subscriptions.get('nextPageToken')
         if not nextPageToken:
