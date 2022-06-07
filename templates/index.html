@@ -29,6 +29,11 @@
                 <input type="submit" value="Subscriptions" name="sub" onclick="loading();" />
                 <input type="submit" value="Liked Playlists" name="liked" onclick="loading();" />
             </form>
+            {% if pref %}
+                <p>{{pref}}</p>
+            {% else %}
+                <p></p>
+            {% endif %}
         </div>
     </body>
 </html>
