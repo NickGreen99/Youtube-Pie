@@ -7,10 +7,11 @@ def oauth():
 
     credentials = None
     # token.pickle stores the user's credentials from previously successful login
+    token_file = "token.pickle"
 
-    if os.path.exists("token.pickle"):
+    if os.path.exists(token_file):
         print("Loading Credentials from File...")
-        with open("token.pickle", "rb") as token:
+        with open(token_file, "rb") as token:
             credentials = pickle.load(token)
 
     # if there are no valid credentials available, then either refresh the token or create new one
@@ -31,7 +32,7 @@ def oauth():
         credentials = flow.credentials
 
         # Save the credentials for the next run
-        with open("token.pickle", "wb") as f:
+        with open(token_file, "wb") as f:
             print("Saving Credentials for future Use...")
             pickle.dump(credentials, f)
     return credentials

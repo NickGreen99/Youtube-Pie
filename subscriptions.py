@@ -23,22 +23,22 @@ def create_preferred_list(categories_dict):
 # Oauth 2.0 authentication
 def subscribed_channels(youtube):
     # Get all account subscriptions (use paging)
-    nextPageToken = None
+    next_page_token = None
     channels = []
     while True:
         request = youtube.subscriptions().list(
             part="snippet,contentDetails",
             mine="True",
             maxResults=50,
-            pageToken=nextPageToken
+            pageToken=next_page_token
         )
         response_subscriptions = request.execute()
         for item in response_subscriptions['items']:
             channels.append(item['snippet'])
         if len(channels) >= 50:
             break
-        nextPageToken = response_subscriptions.get('nextPageToken')
-        if not nextPageToken:
+        next_page_token = response_subscriptions.get('nextPageToken')
+        if not next_page_token:
             break
 
     categoryname = []
