@@ -7,3 +7,4 @@ client_secrets.json
 sotos_client_secrets.json
 sonar-project.properties
 token.pickle
+tests/.pytest_cache

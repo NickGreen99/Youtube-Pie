@@ -1,10 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for
 from googleapiclient.discovery import build
-import liked
-import subscriptions
-import authentication
+from backend import liked,subscriptions,authentication
 
-app = Flask(__name__)
+
+app = Flask(__name__, template_folder='../templates')
 
 
 @app.route('/login', methods=['POST', 'GET'])
