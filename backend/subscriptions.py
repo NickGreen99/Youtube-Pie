@@ -78,7 +78,8 @@ def subscribed_channels(youtube):
             response_categoryname = request.execute()
             categoryname.append(response_categoryname['items'][0]['snippet']['title'])
 
-        except:
+        except Exception as e:
+            print(e.message)
             continue
 
     # create dictionary to keep track of category instances

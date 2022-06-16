@@ -64,7 +64,8 @@ def liked_playlist(youtube):
             )
             response_categoryname = request.execute()
             liked_categoryname.append(response_categoryname['items'][0]['snippet']['title'])
-        except:
+        except Exception as e:
+            print(e.message)
             continue
     categories = create_category_dict(liked_categoryname)
     return create_preferred_list(categories)

@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, redirect, url_for
 from googleapiclient.discovery import build
 from backend import liked,subscriptions,authentication
 
-
 app = Flask(__name__, template_folder='../templates')
 
 
@@ -17,8 +16,8 @@ def login():
 
 @app.route('/index', methods=['POST', 'GET'])
 def index():
+    cred = authentication.oauth()
     if request.method == 'POST':
-        cred = authentication.oauth()
         youtube = build("youtube", 'v3', credentials=cred)
         if request.form.get('sub') == 'Subscriptions':
             sub = subscriptions.subscribed_channels(youtube)
