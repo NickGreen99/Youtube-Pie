@@ -24,7 +24,7 @@ def liked_playlist(youtube):
     response_liked = request.execute()
 
     liked_videos = []
-    nextPageToken = None
+    next_page_token = None
     while True:
         try:
             # get video ids
@@ -33,7 +33,7 @@ def liked_playlist(youtube):
                 part='snippet',
                 playlistId=liked_id,
                 maxResults=50,
-                pageToken=nextPageToken
+                pageToken=next_page_token
             )
             response_videoid = request.execute()
             for i in range(0, len(response_videoid['items'])):
@@ -41,8 +41,8 @@ def liked_playlist(youtube):
                 liked_videos.append(videoid)
             if len(liked_videos) >= 200:
                 break
-            nextPageToken = response_videoid.get('nextPageToken')
-            if not nextPageToken:
+            next_page_token = response_videoid.get('nextPageToken')
+            if not next_page_token:
                 break
         except:
             continue
@@ -64,7 +64,8 @@ def liked_playlist(youtube):
             )
             response_categoryname = request.execute()
             liked_categoryname.append(response_categoryname['items'][0]['snippet']['title'])
-        except:
+        except Exception as e:
+            print(e.message)
             continue
     categories = create_category_dict(liked_categoryname)
     return create_preferred_list(categories)
