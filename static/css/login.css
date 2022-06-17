@@ -1,0 +1,62 @@
+
+@font-face {
+    font-family: 'Inter';
+    src: url('../fonts/Inter-VariableFont_slnt,wght.ttf') format(".ttf");
+}
+
+
+body {
+    background-image: url(../computer_background.jpg);
+    background-size:     cover;                      
+    background-repeat:   no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+ 
+   }
+
+h1{
+    width: 788px;
+    height: 123px;
+    position: absolute;
+    top:  30%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 100;
+    font-size: 128px;
+    line-height: 155px;
+    text-align: center;
+    color: #F2F4F3;
+
+    
+
+}
+
+p {
+    width: 848px;
+    height: 34px;
+    position: absolute;
+    top:  45%;
+    left: 50%;
+
+    transform: translate(-50%,-50%);
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 36px;
+    line-height: 44px;
+    text-align: center;
+    color: #F2F4F3;
+
+}
+
+.log-in-button {
+    position: absolute;
+    width: 310px;
+    height: 87px;
+    top:  60%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
