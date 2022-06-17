@@ -30,7 +30,7 @@ def index():
             return render_template("index.html", pref=str(liked_pl))
     return render_template("index.html")
 
-print("Hello World")
+print("Hello World !!!!!!!!!")
 
 if __name__ == "__main__":
     app.run(debug=True)
