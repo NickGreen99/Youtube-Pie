@@ -3,7 +3,7 @@ from googleapiclient.discovery import build
 from backend import liked, subscriptions, authentication
 import pickle
 
-app = Flask(__name__, template_folder='../templates')
+app = Flask(__name__, template_folder='../templates', static_folder='../static')
 token_file = "../token.pickle"
 
 

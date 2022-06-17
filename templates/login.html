@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<<<<<<< HEAD
     
     <meta charset="UTF-8">
     <title>Youtube-API</title>
-    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}"/> -->
-    <link rel="stylesheet" href='../static/css/login.css'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}"/>
+    <!--<link rel="stylesheet" href='../static/css/login.css'>-->
 </head>
 <body>
    
@@ -21,14 +20,13 @@
        </div>
 
        <div class = "sub-title">
-
             <p> Learn what type of videos you enjoy most</p>
        </div>
 
 
        <div class = "log-in-button">
-            <form action = "http://localhost:5000/login" method = "post">
-                <input type = "submit" value = "Login using Google account" name="log": />
+            <form action = "/" method = "post">
+                <button value = "login" name="log">Login using Google account</button>
             </form>
        </div>
             
@@ -36,17 +34,5 @@
         
         
     </div>
-   
-     
-      
-=======
-    <meta charset="UTF-8">
-    <title>Youtube Stats - Login</title>
-</head>
-<body>
-      <form action = "/" method = "post">
-         <button value="login" name="log">Login using Google Account</button>
-      </form>
->>>>>>> 4fa69e7876a60c353e27a74590a09cb42fc69bb7
 </body>
 </html>
