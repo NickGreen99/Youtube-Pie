@@ -35,4 +35,3 @@ def oauth():
         with open(token_file, "wb") as f:
             print("Saving Credentials for future Use...")
             pickle.dump(credentials, f)
-    return credentials

@@ -6,10 +6,12 @@
         <title>Youtube-API</title>
 =======
         <title>Youtube Stats - Index</title>
+<<<<<<< HEAD
 >>>>>>> 4fa69e7876a60c353e27a74590a09cb42fc69bb7
 
+=======
+>>>>>>> e3bc518ba1e88326ac6e955f0571d1e6f7c7e0ed
         <style>
-
             div#loading {
                 width: 500px;
                 height: 500px;
@@ -36,8 +38,8 @@
             </form>
 =======
             <form action="/index" method="post">
-                <input type="submit" value="Subscriptions" name="sub" onclick="loading();" />
-                <input type="submit" value="Liked Playlists" name="liked" onclick="loading();" />
+                <button value="subscriptions" name="sub" onclick="loading();">Subscriptions</button>
+                <button value="liked_pl" name="liked" onclick="loading();">Liked Playlists</button>
             </form>
             {% if pref %}
                 <p>{{pref}}</p>
