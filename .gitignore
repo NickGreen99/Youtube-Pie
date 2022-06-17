@@ -1,13 +1,19 @@
 #ignore venv folder
 venv/
 .vscode/
+.scannerwork/
+sonar-scanner-4.7.0.2747-windows
 client_secrets.json
+sotos_client_secrets.json
+sonar-project.properties
 
-#for django
-*.pyc  
-*~  
-__pycache__  
-myvenv  
-db.sqlite3  
-/static  
-.DS_Store 
+#ignore pickle files
+*.pickle
+__pycache__/
+
+
+#ignoring them for now because i am toying with them
+app.py
+authentication.py
+liked.py
+subscriptions.py
