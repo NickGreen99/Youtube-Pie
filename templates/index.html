@@ -2,7 +2,11 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+<<<<<<< HEAD
         <title>Youtube-API</title>
+=======
+        <title>Youtube Stats - Index</title>
+>>>>>>> 4fa69e7876a60c353e27a74590a09cb42fc69bb7
 
         <style>
 
@@ -25,10 +29,22 @@
         <div id="loading"><img alt="Loading icon" src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif"></div>
         <div id="content">
             <h3 style="text-align:center;">User Stats using Youtube API</h3>
+<<<<<<< HEAD
             <form action="" method="post">
                 <input type="submit" value="Subscriptions" name="sub" onclick="loading();" />
                 <input type="submit" value="Liked Playlists" name="liked" onclick="loading();" />
             </form>
+=======
+            <form action="/index" method="post">
+                <input type="submit" value="Subscriptions" name="sub" onclick="loading();" />
+                <input type="submit" value="Liked Playlists" name="liked" onclick="loading();" />
+            </form>
+            {% if pref %}
+                <p>{{pref}}</p>
+            {% else %}
+                <p></p>
+            {% endif %}
+>>>>>>> 4fa69e7876a60c353e27a74590a09cb42fc69bb7
         </div>
     </body>
 </html>
