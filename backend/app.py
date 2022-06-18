@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from googleapiclient.discovery import build
-from backend import liked, subscriptions, authentication
+import liked, subscriptions, authentication
 import pickle
 
 

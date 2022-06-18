@@ -4,8 +4,8 @@
     
     <meta charset="UTF-8">
     <title>Youtube-API</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}"/>
-    <!--<link rel="stylesheet" href='../static/css/login.css'>-->
+    <!--<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}"/> -->
+    <link rel="stylesheet" href='../static/css/login.css'>
 </head>
 <body>
    
@@ -24,15 +24,33 @@
        </div>
 
 
-       <div class = "log-in-button">
+       <div class = "google-btn">
             <form action = "/" method = "post">
-                <button value = "login" name="log">Login using Google account</button>
+                <button value = "login" name="log">
+                    <img class = "google-icon" src="../static/images/google_icon.png">
+                    Login using Google account</button>
             </form>
        </div>
-            
-           
+
+      
         
+       <script type="text/javascript">
+        var button = document.getElementById("button");
+        var d3 = document.getElementById("d3");
         
+        function showMore() {
+            button.style.display="none";
+            d3.style.display="block";
+        }
+        
+        function showLess() {
+            button.style.display="inline-block";
+            d3.style.display="none";
+        }
+        </script>
+
+
+
     </div>
 </body>
 </html>
