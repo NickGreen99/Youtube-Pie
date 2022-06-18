@@ -6,19 +6,5 @@ sonar-scanner-4.7.0.2747-windows
 client_secrets.json
 sotos_client_secrets.json
 sonar-project.properties
-<<<<<<< HEAD
-
-#ignore pickle files
-*.pickle
-__pycache__/
-
-
-#ignoring them for now because i am toying with them
-app.py
-authentication.py
-liked.py
-subscriptions.py
-=======
 token.pickle
 tests/.pytest_cache
->>>>>>> 4fa69e7876a60c353e27a74590a09cb42fc69bb7
