@@ -60,8 +60,8 @@ p {
 }
 
 .icon {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     vertical-align: middle;
 
 }
@@ -70,7 +70,7 @@ p {
     position: absolute;
     width: 300px;
     height: 87px;
-    top:  60%;
+    top:  65%;
     left: 50%;
     transform: translate(-50%,-50%);
 }
@@ -91,19 +91,31 @@ p {
 .subs-btn{
     position: absolute;
     width: 300px;
-    height: 87px;
-    top:  60%;
-    left: 65%;
+    height: 80px;
+    top:  65%;
+    left: 70%;
     transform: translate(-50%,-50%);
+  
 
 }
 
 .likes-btn{
     position: absolute;
     width: 300px;
-    height: 87px;
-    top:  60%;
-    left: 35%;
+    height: 80px;
+    top:  65%;
+    left: 30%;
     transform: translate(-50%,-50%);
+    
+}
+
+.subs-btn button, .likes-btn button{
+    width: 300px;
+    height: 80px;
+    text-align: center;
+    font-family: 'Roboto' 'sans-serif';
+    font-size: 18px;
+
+
 
 }
