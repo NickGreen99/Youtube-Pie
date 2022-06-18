@@ -6,6 +6,12 @@
 
 
 
+@font-face {
+    font-family: 'Inter-medium';
+    src: url('../fonts/Inter-Medium.ttf') format("truetype");
+}
+
+
 
 
 body {
@@ -25,7 +31,7 @@ h1{
     left: 50%;
     transform: translate(-50%,-50%);
     
-    font-family: "Inter-light";
+    font-family: "Inter-medium";
     font-style: normal;
     font-weight: 100;
     font-size: 128px;
@@ -53,6 +59,13 @@ p {
 
 }
 
+.icon {
+    width: 60px;
+    height: 60px;
+    vertical-align: middle;
+
+}
+
 .google-btn{
     position: absolute;
     width: 300px;
@@ -71,9 +84,26 @@ p {
 }
 
 
-.google-icon {
-    width: 60px;
-    height: 60px;
-    vertical-align: middle;
+#new-buttons{
+    display: none;
+}
+
+.subs-btn{
+    position: absolute;
+    width: 300px;
+    height: 87px;
+    top:  60%;
+    left: 65%;
+    transform: translate(-50%,-50%);
+
+}
+
+.likes-btn{
+    position: absolute;
+    width: 300px;
+    height: 87px;
+    top:  60%;
+    left: 35%;
+    transform: translate(-50%,-50%);
 
 }

@@ -24,29 +24,42 @@
        </div>
 
 
-       <div class = "google-btn">
+       <div id = "google-btn" class = "google-btn">
             <form action = "/" method = "post">
-                <button value = "login" name="log">
-                    <img class = "google-icon" src="../static/images/google_icon.png">
+                <button value = "login" name="log" onclick="showNewButtons()">
+                    <img class = "icon" src="../static/images/google_icon.png">
                     Login using Google account</button>
             </form>
        </div>
 
-      
+       <div id = "new-buttons">
+        <div class = "subs-btn">
+                <button value = "subscriptions" name="sub">
+                    <img class = "icon" src="../static/images/subs_icon.png">
+                    Based on your subscriptions
+                </button>
+                
+        </div>
         
+        <div class = "likes-btn">
+                <button value = "liked_pl" name="liked">
+                <img class = "icon" src="../static/images/likes_icon.png">
+                    Based on your liked videos
+                </button>
+
+        </div>
+        </div>
+
+
        <script type="text/javascript">
-        var button = document.getElementById("button");
-        var d3 = document.getElementById("d3");
+        var old_button = document.getElementById("google-btn");
+        var new_buttons = document.getElementById("new-buttons");
         
-        function showMore() {
-            button.style.display="none";
-            d3.style.display="block";
+        function showNewButtons() {
+            old_button.style.display="none";
+            new_buttons.style.display="block";
         }
         
-        function showLess() {
-            button.style.display="inline-block";
-            d3.style.display="none";
-        }
         </script>
 
 
