@@ -1,69 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    
+
     <meta charset="UTF-8">
     <title>Youtube-API</title>
-    <!--<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}"/> -->
-    <link rel="stylesheet" href='../static/css/login.css'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}"/>
+    <!--link rel="stylesheet" href='../static/css/login.css'>-->
 </head>
 <body>
-   
-    <div class="background-image"></div>
+
+<script>
+            function loading(){
+                document.getElementById('loading').style.display = "block";
+                document.getElementById('content').style.display = "none";
+                }
+
+</script>
+
+<div class="background-image"></div>
 
 
-    <div class = "content">
+<div class="content" id="content">
 
-       <div class = "title">
+    <div class="title">
 
-            <h1> Youtube-API </h1>
-       </div>
+        <h1> Youtube-API </h1>
+    </div>
 
-       <div class = "sub-title">
-            <p> Learn what type of videos you enjoy most</p>
-       </div>
+    <div class="sub-title">
+        <p> Learn what type of videos you enjoy most</p>
+    </div>
 
-
-       <div id = "google-btn" class = "google-btn">
-            <form action = "/" method = "post">
-                <button value = "login" name="log" onclick="showNewButtons()">
-                    <img class = "icon" src="../static/images/google_icon.png">
-                    Login using Google account</button>
-            </form>
-       </div>
-
-       <div id = "new-buttons">
-        <div class = "subs-btn">
-                <button value = "subscriptions" name="sub">
-                    <img class = "icon" src="../static/images/subs_icon.png">
+    {% if logged_in %}
+    <div id="new-buttons">
+        <form action="/callback" method="post">
+            <div class="subs-btn">
+                <button value="subscriptions" name="sub" onclick="loading();">
+                    <img class="icon" src="../static/images/subs_icon.png">
                     Based on your subscriptions
                 </button>
-                
-        </div>
-        
-        <div class = "likes-btn">
-                <button value = "liked_pl" name="liked">
-                <img class = "icon" src="../static/images/likes_icon.png">
+
+            </div>
+
+            <div class="likes-btn">
+                <button value="liked_pl" name="liked" onclick="loading();">
+                    <img class="icon" src="../static/images/likes_icon.png">
                     Based on your liked videos
                 </button>
 
-        </div>
-        </div>
-
-
-       <script type="text/javascript">
-        var old_button = document.getElementById("google-btn");
-        var new_buttons = document.getElementById("new-buttons");
-        
-        function showNewButtons() {
-            old_button.style.display="none";
-            new_buttons.style.display="block";
-        }
-        
-        </script>
-
-
-
+            </div>
+        </form>
     </div>
+    {% else %}
+    <div id="google-btn" class="google-btn">
+        <form action="/" method="post">
+            <button value="login" name="log">
+                <img class="icon" src="../static/images/google_icon.png">
+                Login using Google account
+            </button>
+        </form>
+    </div>
+    {% endif %}
+
+</div>
+<div id="loading"><img alt="Loading icon" src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif">
+</div>
 </body>
 </html>

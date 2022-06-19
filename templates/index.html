@@ -1,41 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
+<head>
+    <meta charset="UTF-8">
 
-        <title>Youtube-API</title>
-        <title>Youtube Stats - Index</title>
-        <style>
-            div#loading {
-                width: 500px;
-                height: 500px;
-                display: none;
-                margin:auto;
-                cursor: wait;
-                }
-        </style>
-    </head>
-    <body>
-        <script>
-            function loading(){
-                document.getElementById('loading').style.display = "block";
-                document.getElementById('content').style.display = "none";
-                }
-        </script>
-        <div id="loading"><img alt="Loading icon" src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif"></div>
-        <div id="content">
-            <h3 style="text-align:center;">User Stats using Youtube API</h3>
+    <title>Youtube-API</title>
+    <title>Youtube Stats - Index</title>
+</head>
+<body>
 
-            <form action="/index" method="post">
-                <button value="subscriptions" name="sub" onclick="loading();">Subscriptions</button>
-                <button value="liked_pl" name="liked" onclick="loading();">Liked Playlists</button>
-            </form>
-            {% if pref %}
-                <p>{{pref}}</p>
-            {% else %}
-                <p></p>
-            {% endif %}
 
-        </div>
-    </body>
+<div id="content">
+    <h3 style="text-align:center;">User Stats using Youtube API</h3>
+
+    <!--            <form action="/index" method="post">-->
+    <!--                <button value="subscriptions" name="sub" onclick="loading();">Subscriptions</button>-->
+    <!--                <button value="liked_pl" name="liked" onclick="loading();">Liked Playlists</button>-->
+    <!--            </form>-->
+    {% if pref %}
+    <p>{{pref}}</p>
+    {% else %}
+    <p></p>
+    {% endif %}
+
+</div>
+</body>
 </html>

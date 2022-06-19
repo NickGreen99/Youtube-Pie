@@ -3,8 +3,6 @@ from googleapiclient.discovery import build
 import liked, subscriptions, authentication
 import pickle
 
-
-
 app = Flask(__name__, template_folder='../templates', static_folder='../static')
 token_file = "../token.pickle"
 
@@ -14,23 +12,24 @@ def login():
     if request.method == 'POST':
         if request.form.get('log') == "login":
             authentication.oauth()
-            return redirect(url_for("index"))
-    return render_template("login.html")
+            return redirect(url_for("callback"))
+    return render_template("login.html", logged_in=False)
 
 
-@app.route('/index', methods=['POST', 'GET'])
-def index():
-    if request.method == 'POST':
+@app.route('/callback', methods=['GET', 'POST'])
+def callback():
+    if request.method =='POST':
         with open(token_file, "rb") as token:
-            cred = pickle.load(token)
+           cred = pickle.load(token)
         youtube = build("youtube", 'v3', credentials=cred)
         if request.form.get('sub') == 'subscriptions':
-            sub = subscriptions.subscribed_channels(youtube)
-            return render_template("index.html", pref=str(sub))
+           sub = subscriptions.subscribed_channels(youtube)
+           return render_template("index.html", pref=str(sub))
         if request.form.get('liked') == 'liked_pl':
-            liked_pl = liked.liked_playlist(youtube)
-            return render_template("index.html", pref=str(liked_pl))
-    return render_template("index.html")
+           liked_pl = liked.liked_playlist(youtube)
+           return render_template("index.html", pref=str(liked_pl))
+    return render_template("login.html", logged_in=True)
+
 
 if __name__ == "__main__":
     app.run(debug=True)
