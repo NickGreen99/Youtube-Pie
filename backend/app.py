@@ -28,7 +28,7 @@ def percentages(categories):
     plt.pie(sizes, shadow=True, startangle=90, colors=color)
     for i in range(0, len(sizes) - 1):
         sizes[i] = sizes[i] * 100
-    labels = [f'{l}, {s:0.1f}%' for l, s in zip(labels, sizes)]
+    labels = [f'{l}, {s:0.2f}%' for l, s in zip(labels, sizes)]
     plt.legend(bbox_to_anchor=(0.1, 0.5), loc='center right', labels=labels)
     plt.tight_layout()
     plt.savefig('../static/images/demo.png', transparent=True)
