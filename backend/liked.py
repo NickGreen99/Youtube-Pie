@@ -67,4 +67,4 @@ def liked_playlist(youtube):
         except Exception as e:
             continue
     categories = create_category_dict(liked_categoryname)
-    return create_preferred_list(categories)
+    return create_preferred_list(categories), liked_categoryname

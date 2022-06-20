@@ -85,4 +85,4 @@ def subscribed_channels(youtube):
     categories = create_category_dict(categoryname)
 
     # sort dictionary and create list of your preferred categories
-    return create_preferred_list(categories)
+    return create_preferred_list(categories),categoryname
