@@ -1,0 +1,83 @@
+@font-face {
+    font-family: 'Inter-light';
+    src: url('../fonts/Inter-Light.ttf') format("truetype");
+}
+
+
+@font-face {
+    font-family: 'Inter-medium';
+    src: url('../fonts/Inter-Medium.ttf') format("truetype");
+}
+
+body {
+    background-image: url(../images/computer_background.jpg);
+    background-size:     cover;                      
+    background-repeat:   no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+p {
+    width: 848px;
+    height: 34px;
+    position: absolute;
+    top:  10%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    font-family: 'Inter-light';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 35px;
+    line-height: 44px;
+    text-align: center;
+    color: #F2F4F3;
+
+}
+
+#box {
+    position: absolute;
+    width: 800px;
+    height: 450px;
+    top:  50%;
+    left: 50%;
+    background: #111112;
+    border-radius: 5px;
+    text-align:center;
+    transform: translate(-50%,-50%);
+
+}
+
+
+#pie-img{
+    display:inline-block;
+    position: relative;
+    left: 10%;
+}
+
+.icon {
+    width: 50px;
+    height: 50px;
+    vertical-align: middle;
+}
+
+
+#change-button{
+    display: block;
+    position: absolute;
+    width:300px;
+    height:80px;
+    top:  85%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+
+.change-button button{
+    width: 300px;
+    height: 80px;
+    text-align: center;
+    font-family: 'Roboto' 'sans-serif';
+    font-size: 18px;
+
+}
+
