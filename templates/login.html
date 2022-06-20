@@ -9,13 +9,7 @@
 </head>
 <body>
 
-<script>
-            function loading(){
-                document.getElementById('loading').style.display = "block";
-                document.getElementById('content').style.display = "none";
-                }
 
-</script>
 
 <div class="background-image"></div>
 
@@ -62,8 +56,22 @@
     </div>
     {% endif %}
 
+
+    <div class="loading-container" id = 'loading-container'>
+        <div class="loading-speeding-wheel"></div>
+    </div>
+
+
 </div>
-<div id="loading"><img alt="Loading icon" src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif">
+   
 </div>
 </body>
+<script>
+    document.getElementById('loading-container').style.display = "none";
+           function loading(){
+                document.getElementById('loading-container').style.display = "block";
+                document.getElementById('new-buttons').style.display = "none";
+               }
+
+</script>
 </html>
