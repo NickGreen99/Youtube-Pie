@@ -32,7 +32,6 @@ def percentages(categories):
     plt.legend(bbox_to_anchor=(0.1, 0.5), loc='center right', labels=labels)
     plt.tight_layout()
     plt.savefig('../static/images/demo.png', transparent=True)
-    plt.show()
 
 
 @app.route('/', methods=['POST', 'GET'])
