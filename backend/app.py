@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, redirect, url_for
 from googleapiclient.discovery import build
 import liked, subscriptions, authentication
 import pickle
-import matplotlib.pyplot as plt
 import random
 
 app = Flask(__name__, template_folder='../templates', static_folder='../static')
@@ -24,14 +23,11 @@ def percentages(categories):
     n = len(labels)
     color = ["#" + ''.join([random.choice('0123456789ABCDEF')
                             for j in range(6)]) for i in range(n)]
-    plt_1 = plt.figure(figsize=(7, 4))
-    plt.pie(sizes, shadow=True, startangle=90, colors=color)
+   
     for i in range(0, len(sizes) - 1):
         sizes[i] = sizes[i] * 100
     labels = [f'{l}, {s:0.2f}%' for l, s in zip(labels, sizes)]
-    plt.legend(bbox_to_anchor=(0.1, 0.5), loc='center right', labels=labels)
-    plt.tight_layout()
-    plt.savefig('../static/images/demo.png', transparent=True)
+    return labels,sizes,color
 
 @app.route('/', methods=['POST', 'GET'])
 def login():
@@ -49,13 +45,11 @@ def callback():
             cred = pickle.load(token)
         youtube = build("youtube", 'v3', credentials=cred)
         if request.form.get('sub') == 'subscriptions':
-            sub = subscriptions.subscribed_channels(youtube)
-            percentages(sub)
-            return render_template("index.html", pref='sub')
+            sub = subscriptions.subscribed_channels(youtube)      
+            return render_template("index.html", pref='sub', chart_data = sub)
         if request.form.get('liked') == 'liked_pl':
             liked_pl = liked.liked_playlist(youtube)
-            percentages(liked_pl)
-            return render_template("index.html", pref='liked')
+            return render_template("index.html", pref='liked', chart_data = liked_pl)
     return render_template("login.html", logged_in=True)
 
 
