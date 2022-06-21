@@ -4,7 +4,8 @@ venv/
 .scannerwork/
 sonar-scanner-4.7.0.2747-windows
 client_secrets.json
-sotos_client_secrets.json
+sotos_secrets.json
 sonar-project.properties
 token.pickle
 tests/.pytest_cache
+backend/__pycache__

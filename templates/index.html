@@ -1,39 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Youtube Stats - Index</title>
+<head>
+    <meta charset="UTF-8">
+    <title>Youtube Pie</title>
+   <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}"/>-->
+    <link rel="stylesheet" href='../static/css/index.css'>
+    <link rel="icon" type="image/png" sizes="32x32" href="../static/images/pie_icon.png">
+</head>
+<script
+    src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+</script>
 
-        <style>
 
-            div#loading {
-                width: 500px;
-                height: 500px;
-                display: none;
-                margin:auto;
-                cursor: wait;
-                }
-        </style>
-    </head>
-    <body>
-        <script>
-            function loading(){
-                document.getElementById('loading').style.display = "block";
-                document.getElementById('content').style.display = "none";
-                }
-        </script>
-        <div id="loading"><img alt="Loading icon" src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif"></div>
-        <div id="content">
-            <h3 style="text-align:center;">User Stats using Youtube API</h3>
-            <form action="/index" method="post">
-                <input type="submit" value="Subscriptions" name="sub" onclick="loading();" />
-                <input type="submit" value="Liked Playlists" name="liked" onclick="loading();" />
+<body>
+
+
+    <div id="content">
+
+        <p id = "title-text">
+            {% if pref == 'sub' %}
+            Based on your subscriptions
+            {% elif pref == 'liked' %}
+            Based on your liked videos
+            {% endif %}
+        </p>
+
+        <div id = "box">
+                <div class = "container">
+                    <canvas id="pie-chart"></canvas>
+                </div>
+                
+        </div>
+        {% block javascript %}
+            <script type="text/javascript"> 
+
+             
+     
+               xValues = JSON.parse({{ labels | tojson }})
+               yValues = JSON.parse({{ sizes | tojson }})
+               barColors = JSON.parse({{ colors | tojson }})
+                    
+                new Chart("pie-chart", {
+                type: "pie",
+                data: {
+                    labels: xValues,
+                    datasets: [{
+                    backgroundColor: barColors,
+                    data: yValues
+                    }]
+                },
+                options: {
+                    
+                    maintainAspectRatio: false,
+    
+                        legend: {
+                            display: true,
+                            position: "right",
+                            labels: {
+                            fontColor: 'rgb(244, 242, 244)'
+                        }
+                        }
+                    }
+                });
+               
+            
+            </script>
+        {% endblock %}
+
+
+
+
+
+
+    
+        <div id = "change-button" class = "change-button">
+            {% if pref == 'sub' %}
+            <form action="/callback" method="post">
+                <div class="likes-btn">
+                    <button value="liked_pl" name="liked" onclick="loading();">
+                        <img class="icon" src="../static/images/likes_icon.png">
+                        Based on your liked videos
+                    </button>
+
+                </div>
             </form>
-            {% if pref %}
-                <p>{{pref}}</p>
             {% else %}
-                <p></p>
+            <form action="/callback" method="post">
+                <div class="subs-btn">
+                    <button value="subscriptions" name="sub" onclick="loading();">
+                        <img class="icon" src="../static/images/subs_icon.png">
+                        Based on your subscriptions
+                    </button>
+
+                </div>
+            </form>
             {% endif %}
         </div>
-    </body>
+
+        
+    <div class="loading-container" id = 'loading-container'>
+        <div class="loading-speeding-wheel"></div>
+    </div>
+        
+
+</div>
+
+<script>
+    document.getElementById('loading-container').style.display = "none";
+           function loading(){
+                document.getElementById('loading-container').style.display = "block";
+                document.getElementById('change-button').style.display = "none";
+               }
+
+</script>
+
+
+
+</body>
 </html>

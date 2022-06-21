@@ -1,20 +1,3 @@
-def create_category_dict(category_list):
-    categories_dict = {}
-    for key in category_list:
-        if key in categories_dict.keys():
-            categories_dict[key] = categories_dict[key] + 1
-        else:
-            categories_dict.update(({key: 1}))
-    return categories_dict
-
-
-def create_preferred_list(categories_dict):
-    ordered_cat = dict(sorted(categories_dict.items(), key=lambda item: item[1]))
-    category_list = list(ordered_cat.keys())
-    category_list.reverse()
-    return category_list
-
-
 def liked_playlist(youtube):
     # Get 'liked videos' playlist from account
     request = youtube.channels().list(
@@ -65,7 +48,5 @@ def liked_playlist(youtube):
             response_categoryname = request.execute()
             liked_categoryname.append(response_categoryname['items'][0]['snippet']['title'])
         except Exception as e:
-            print(e.message)
             continue
-    categories = create_category_dict(liked_categoryname)
-    return create_preferred_list(categories)
+    return liked_categoryname

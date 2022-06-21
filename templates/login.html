@@ -1,12 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
-    <title>Youtube Stats - Login</title>
+    <title>Youtube Pie</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../static/images/pie_icon.png">
+    
+
+    <!--link rel="stylesheet" href='../static/css/login.css'>-->
 </head>
 <body>
-      <form action = "http://localhost:5000/login" method = "post">
-         <input type = "submit" value = "Login using Google account" name="log": />
-      </form>
+
+
+
+<div class="background-image"></div>
+
+
+<div class="content" id="content">
+
+    <div class="title">
+
+        <h1> Youtube Pie </h1>
+    </div>
+
+    <div class="sub-title">
+        <p> Learn what type of videos you enjoy most</p>
+    </div>
+
+    {% if logged_in %}
+    <div id="new-buttons">
+        <form action="/callback" method="post">
+            <div class="subs-btn">
+                <button value="subscriptions" name="sub" onclick="loading();">
+                    <img class="icon" src="../static/images/subs_icon.png">
+                    Based on your subscriptions
+                </button>
+
+            </div>
+
+            <div class="likes-btn">
+                <button value="liked_pl" name="liked" onclick="loading();">
+                    <img class="icon" src="../static/images/likes_icon.png">
+                    Based on your liked videos
+                </button>
+
+            </div>
+        </form>
+    </div>
+    {% else %}
+    <div id="google-btn" class="google-btn">
+        <form action="/" method="post">
+            <button value="login" name="log">
+                <img class="icon" src="../static/images/google_icon.png">
+                Login using Google account
+            </button>
+        </form>
+    </div>
+    {% endif %}
+
+
+    <div class="loading-container" id = 'loading-container'>
+        <div class="loading-speeding-wheel"></div>
+    </div>
+
+
+</div>
+   
+</div>
 </body>
+<script>
+    document.getElementById('loading-container').style.display = "none";
+           function loading(){
+                document.getElementById('loading-container').style.display = "block";
+                document.getElementById('new-buttons').style.display = "none";
+               }
+
+</script>
 </html>

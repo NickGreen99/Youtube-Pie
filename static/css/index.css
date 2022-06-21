@@ -1,0 +1,139 @@
+@font-face {
+    font-family: 'Inter-light';
+    src: url('../fonts/Inter-Light.ttf') format("truetype");
+}
+
+
+@font-face {
+    font-family: 'Inter-medium';
+    src: url('../fonts/Inter-Medium.ttf') format("truetype");
+}
+
+body {
+    background-image: url(../images/computer_background.jpg);
+    background-size:     cover;                      
+    background-repeat:   no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+p {
+    width: 848px;
+    height: auto;
+    position: absolute;
+    top:  10%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    font-family: 'Inter-light';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 35px;
+    line-height: 44px;
+    text-align: center;
+    color: #F2F4F3;
+
+}
+
+#box {
+    position: absolute;
+    width: 800px;
+    height: 500px;
+    top:  50%;
+    left: 50%;
+    background: #111112;
+    border-radius: 5px;
+    text-align:center;
+    transform: translate(-50%,-50%);
+
+}
+
+.container{
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: inline-block;
+    width: 800px;
+    height: 400px;
+    align-self: center;
+  }
+
+
+#pie-chart{
+    position: relative;
+    
+}
+
+.icon {
+    width: 50px;
+    height: 50px;
+    vertical-align: middle;
+}
+
+
+#change-button{
+    display: block;
+    position: absolute;
+    width:300px;
+    height:80px;
+    top:  85%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+
+.change-button button{
+    width: 300px;
+    height: 80px;
+    text-align: center;
+    font-family: 'Roboto' 'sans-serif';
+    font-size: 18px;
+
+}
+
+
+@keyframes cssload-spin {
+	100%{ transform: rotate(360deg); transform: rotate(360deg); }
+}
+
+@-o-keyframes cssload-spin {
+	100%{ -o-transform: rotate(360deg); transform: rotate(360deg); }
+}
+
+@-ms-keyframes cssload-spin {
+	100%{ -ms-transform: rotate(360deg); transform: rotate(360deg); }
+}
+
+@-webkit-keyframes cssload-spin {
+	100%{ -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+}
+
+@-moz-keyframes cssload-spin {
+	100%{ -moz-transform: rotate(360deg); transform: rotate(360deg); }
+}
+
+
+
+.loading-container {
+	width: 95%;
+	height: 106px;
+	text-align: center;
+    position: absolute;
+    bottom: 5%;
+    
+}
+
+.loading-speeding-wheel {
+	width: 106px;
+	height: 106px;
+	margin: 0 auto;
+	border: 6px solid rgb(255,255,255);
+	border-radius: 50%;
+	border-left-color: transparent;
+	border-right-color: transparent;
+	animation: cssload-spin 1025ms infinite linear;
+		-o-animation: cssload-spin 1025ms infinite linear;
+		-ms-animation: cssload-spin 1025ms infinite linear;
+		-webkit-animation: cssload-spin 1025ms infinite linear;
+		-moz-animation: cssload-spin 1025ms infinite linear;
+}
