@@ -29,16 +29,6 @@
         </div>
         {% block javascript %}
             <script type="text/javascript"> 
-                var xValues = ["Italy", "France", "Spain", "USA", "Argentina"];
-                var yValues = [55, 49, 44, 24, 15];
-                var barColors = [
-                "#b91d47",
-                "#00aba9",
-                "#2b5797",
-                "#e8c3b9",
-                "#1e7145"
-                ];
-
                 xValues = JSON.parse({{ labels | tojson }})
                 yValues = JSON.parse({{ sizes | tojson }})
                 barColors = JSON.parse({{ colors | tojson }})
