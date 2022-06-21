@@ -52,11 +52,11 @@ def callback():
         if request.form.get('sub') == 'subscriptions':
             sub, total_sub = subscriptions.subscribed_channels(youtube)
             percentages(total_sub)
-            return render_template("index.html", pref=str(sub))
+            return render_template("index.html", pref='sub')
         if request.form.get('liked') == 'liked_pl':
             liked_pl, total_liked = liked.liked_playlist(youtube)
             percentages(total_liked)
-            return render_template("index.html", pref=str(liked_pl))
+            return render_template("index.html", pref='liked')
     return render_template("login.html", logged_in=True)
 
 

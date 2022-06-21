@@ -23,7 +23,7 @@ def oauth():
             print("Fetching new Tokens...")
         # Select the scopes of our app
         flow = InstalledAppFlow.from_client_secrets_file(
-            "../sotos_secrets.json", scopes=["https://www.googleapis.com/auth/youtube.readonly"])
+            "../client_secrets.json", scopes=["https://www.googleapis.com/auth/youtube.readonly"])
 
         # Create server (localhost this time) to prompt users to allow us to view their YoutTube data
         flow.run_local_server(port=8080, prompt="consent")
