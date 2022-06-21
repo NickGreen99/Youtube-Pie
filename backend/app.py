@@ -33,7 +33,6 @@ def percentages(categories):
     plt.tight_layout()
     plt.savefig('../static/images/demo.png', transparent=True)
 
-
 @app.route('/', methods=['POST', 'GET'])
 def login():
     if request.method == 'POST':
@@ -50,12 +49,12 @@ def callback():
             cred = pickle.load(token)
         youtube = build("youtube", 'v3', credentials=cred)
         if request.form.get('sub') == 'subscriptions':
-            sub, total_sub = subscriptions.subscribed_channels(youtube)
-            percentages(total_sub)
+            sub = subscriptions.subscribed_channels(youtube)
+            percentages(sub)
             return render_template("index.html", pref='sub')
         if request.form.get('liked') == 'liked_pl':
-            liked_pl, total_liked = liked.liked_playlist(youtube)
-            percentages(total_liked)
+            liked_pl = liked.liked_playlist(youtube)
+            percentages(liked_pl)
             return render_template("index.html", pref='liked')
     return render_template("login.html", logged_in=True)
 
