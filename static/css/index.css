@@ -19,7 +19,7 @@ body {
 
 p {
     width: 848px;
-    height: 34px;
+    height: auto;
     position: absolute;
     top:  10%;
     left: 50%;
@@ -37,7 +37,7 @@ p {
 #box {
     position: absolute;
     width: 800px;
-    height: 450px;
+    height: 500px;
     top:  50%;
     left: 50%;
     background: #111112;
@@ -47,11 +47,21 @@ p {
 
 }
 
-
-#pie-img{
-    display:inline-block;
+.container{
     position: relative;
-    left: 10%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: inline-block;
+    width: 800px;
+    height: 400px;
+    align-self: center;
+  }
+
+
+#pie-chart{
+    position: relative;
+    
 }
 
 .icon {
