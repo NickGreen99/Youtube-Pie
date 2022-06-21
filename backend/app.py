@@ -3,6 +3,7 @@ from googleapiclient.discovery import build
 import liked, subscriptions, authentication
 import pickle
 import random
+import json
 
 app = Flask(__name__, template_folder='../templates', static_folder='../static')
 token_file = "../token.pickle"
@@ -46,10 +47,12 @@ def callback():
         youtube = build("youtube", 'v3', credentials=cred)
         if request.form.get('sub') == 'subscriptions':
             sub = subscriptions.subscribed_channels(youtube)      
-            return render_template("index.html", pref='sub', chart_data = sub)
+            labels,sizes,colors = percentages(sub)
+            return render_template("index.html", pref='sub', labels = json.dumps(labels), sizes = json.dumps(sizes), colors = json.dumps(colors))
         if request.form.get('liked') == 'liked_pl':
             liked_pl = liked.liked_playlist(youtube)
-            return render_template("index.html", pref='liked', chart_data = liked_pl)
+            labels,sizes,colors = percentages(liked_pl)
+            return render_template("index.html", pref='liked', labels = json.dumps(labels), sizes = json.dumps(sizes), colors = json.dumps(colors))
     return render_template("login.html", logged_in=True)
 
 
