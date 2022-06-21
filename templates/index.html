@@ -3,52 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <title>Youtube-API</title>
-    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}"/>-->
+   <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}"/>-->
     <link rel="stylesheet" href='../static/css/index.css'>
 </head>
+<script
+    src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+</script>
+
 
 <body>
-<div id="content">
 
-    <p id="title-text">
-        {% if pref == 'sub' %}
-        Based on your subscriptions
-        {% elif pref == 'liked' %}
-        Based on your liked videos
-        {% endif %}
-    </p>
 
-    <div id="box">
-        <div id="pie-img">
-            <img class="pie-img" src="../static/images/demo.png">
+    <div id="content">
+
+        <p id = "title-text">
+            {% if pref == 'sub' %}
+            Based on your subscriptions
+            {% elif pref == 'liked' %}
+            Based on your liked videos
+            {% endif %}
+        </p>
+
+        <div id = "box">
+                <canvas id="pie-chart"></canvas>
         </div>
-    </div>
+
+        <script type="text/javascript">
+            var data = {{chart_data | safe}};
+            var xValues = ["Italy", "France", "Spain", "USA", "Argentina"];
+            var yValues = [55, 49, 44, 24, 15];
+            var barColors = [
+              "#b91d47",
+              "#00aba9",
+              "#2b5797",
+              "#e8c3b9",
+              "#1e7145"
+            ];
+                
+            new Chart("pie-chart", {
+              type: "pie",
+              data: {
+                labels: xValues,
+                datasets: [{
+                  backgroundColor: barColors,
+                  data: yValues
+                }]
+              }
+            
+            });
+            
+            </script>
 
 
-    <div id="change-button" class="change-button">
-        {% if pref == 'sub' %}
-        <form action="/callback" method="post">
-            <div class="likes-btn">
-                <button value="liked_pl" name="liked" onclick="loading();">
-                    <img class="icon" src="../static/images/likes_icon.png">
-                    Based on your liked videos
-                </button>
 
-            </div>
-        </form>
-        {% elif pref == 'liked' %}
-        <form action="/callback" method="post">
-            <div class="subs-btn">
-                <button value="subscriptions" name="sub" onclick="loading();">
-                    <img class="icon" src="../static/images/subs_icon.png">
-                    Based on your subscriptions
-                </button>
 
-            </div>
-        </form>
-        {% endif %}
-    </div>
 
+
+    
+        <div id = "change-button" class = "change-button">
+            {% if pref == 'sub' %}
+            <form action="/callback" method="post">
+                <div class="likes-btn">
+                    <button value="liked_pl" name="liked" onclick="loading();">
+                        <img class="icon" src="../static/images/likes_icon.png">
+                        Based on your liked videos
+                    </button>
+
+                </div>
+            </form>
+            {% else %}
+            <form action="/callback" method="post">
+                <div class="subs-btn">
+                    <button value="subscriptions" name="sub" onclick="loading();">
+                        <img class="icon" src="../static/images/subs_icon.png">
+                        Based on your subscriptions
+                    </button>
+
+                </div>
+            </form>
+            {% endif %}
+        </div>
+
+
+        
 
 </div>
 </body>
