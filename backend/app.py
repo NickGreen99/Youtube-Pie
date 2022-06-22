@@ -4,6 +4,7 @@ import liked, subscriptions, authentication
 import pickle
 import random
 import json
+import os
 
 app = Flask(__name__, template_folder='../templates', static_folder='../static')
 token_file = "../token.pickle"
@@ -24,11 +25,10 @@ def percentages(categories):
     n = len(labels)
     color = ["#" + ''.join([random.choice('0123456789ABCDEF')
                             for j in range(6)]) for i in range(n)]
-   
     for i in range(0, len(sizes) - 1):
         sizes[i] = sizes[i] * 100
-    labels = [f'{l}, {s:0.2f}%' for l, s in zip(labels, sizes)]
-    return labels,sizes,color
+    return labels, sizes, color
+
 
 @app.route('/', methods=['POST', 'GET'])
 def login():
@@ -46,15 +46,18 @@ def callback():
             cred = pickle.load(token)
         youtube = build("youtube", 'v3', credentials=cred)
         if request.form.get('sub') == 'subscriptions':
-            sub = subscriptions.subscribed_channels(youtube)      
-            labels,sizes,colors = percentages(sub)
-            return render_template("index.html", pref='sub', labels = json.dumps(labels), sizes = json.dumps(sizes), colors = json.dumps(colors))
+            sub = subscriptions.subscribed_channels(youtube)
+            labels, sizes, colors = percentages(sub)
+            return render_template("index.html", pref='sub', labels=json.dumps(labels), sizes=json.dumps(sizes),
+                                   colors=json.dumps(colors))
         if request.form.get('liked') == 'liked_pl':
             liked_pl = liked.liked_playlist(youtube)
-            labels,sizes,colors = percentages(liked_pl)
-            return render_template("index.html", pref='liked', labels = json.dumps(labels), sizes = json.dumps(sizes), colors = json.dumps(colors))
+            labels, sizes, colors = percentages(liked_pl)
+            return render_template("index.html", pref='liked', labels=json.dumps(labels), sizes=json.dumps(sizes),
+                                   colors=json.dumps(colors))
     return render_template("login.html", logged_in=True)
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(debug=True, host='0.0.0.0', port=port)
