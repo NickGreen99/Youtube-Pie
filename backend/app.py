@@ -5,12 +5,15 @@ import pickle
 import random
 import json
 import os
+from pathlib import Path
+
 
 app = Flask(__name__, template_folder='../templates', static_folder='../static')
-token_file = "../token.pickle"
+token_folder = Path(__file__).parent.parent
+token_file = token_folder / "token.pickle"
 
 
-def percentages(categories):
+def percentages(categories):  # Sort labels and sizes to create better pie chart
     labels = []
     sizes = []
     num = len(categories)
