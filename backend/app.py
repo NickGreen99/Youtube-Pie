@@ -7,7 +7,7 @@ import json
 import os
 from pathlib import Path
 
-
+#App
 app = Flask(__name__, template_folder='../templates', static_folder='../static')
 token_folder = Path(__file__).parent.parent
 token_file = token_folder / "token.pickle"
