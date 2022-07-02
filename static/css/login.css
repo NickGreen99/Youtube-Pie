@@ -91,7 +91,7 @@ p {
 .google-btn{
     position: absolute;
     width: 300px;
-    height: 87px;
+    height: 80px;
     top:  65%;
     left: 50%;
     transform: translate(-50%,-50%);
@@ -109,7 +109,7 @@ p {
 #new-buttons{
     display: block;
     position: absolute;
-    width:800px;
+    width:700px;
     height:80px;
     top:  65%;
     left: 50%;
@@ -119,33 +119,25 @@ p {
 
 .subs-btn{
     display: inline-block;
-    width:300px;
-    height:80px;
-    margin-right: 180px;
-    
- 
-
+    margin-right:80px;
 }
 
 .likes-btn{
     display: inline-block;
-    width:300px;
-    height:80px;
-   
-    
-  
-    
 }
 
-.subs-btn button, .likes-btn button{
+.logout-btn{
+    display: block;
+    margin-top: 50px;
+    margin-left:200px;
+}
+
+.subs-btn button, .likes-btn button, .logout-btn button{
     width: 300px;
     height: 80px;
     text-align: center;
     font-family: 'Roboto' 'sans-serif';
     font-size: 18px;
-
-
-
 }
 
 .loading-container {
@@ -154,7 +146,6 @@ p {
 	text-align: center;
     position: absolute;
     top:  70%;
-    
 }
 
 .loading-speeding-wheel {

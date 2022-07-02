@@ -1,16 +1,36 @@
-from flask import Flask, render_template, request, redirect, url_for
-from googleapiclient.discovery import build
-import liked, subscriptions, authentication
+import flask
+import requests
+import liked, subscriptions
 import pickle
 import random
 import json
 import os
 from pathlib import Path
 
-#App
-app = Flask(__name__, template_folder='../templates', static_folder='../static')
-token_folder = Path(__file__).parent.parent
-token_file = token_folder / "token.pickle"
+import google.oauth2.credentials
+import google_auth_oauthlib.flow
+import googleapiclient.discovery
+
+# App
+app = flask.Flask(__name__, template_folder='../templates', static_folder='../static')
+
+client_secrets_folder = Path(__file__).parent.parent
+CLIENT_SECRETS_FILE = client_secrets_folder / "client_secrets/client_secrets.json"
+
+SCOPES = ['https://www.googleapis.com/auth/youtube.readonly']
+API_SERVICE_NAME = 'youtube'
+API_VERSION = 'v3'
+
+app.secret_key = 'REPLACE ME - this value is here as a placeholder.'
+
+
+def credentials_to_dict(credentials):
+    return {'token': credentials.token,
+            'refresh_token': credentials.refresh_token,
+            'token_uri': credentials.token_uri,
+            'client_id': credentials.client_id,
+            'client_secret': credentials.client_secret,
+            'scopes': credentials.scopes}
 
 
 def percentages(categories):  # Sort labels and sizes to create better pie chart
@@ -35,16 +55,120 @@ def percentages(categories):  # Sort labels and sizes to create better pie chart
 
 @app.route('/', methods=['POST', 'GET'])
 def login():
-    if request.method == 'POST':
-        if request.form.get('log') == "login":
-            authentication.oauth()
-            return redirect(url_for("callback"))
-    return render_template("login.html", logged_in=False)
+    if flask.request.method == 'POST':
+        if 'credentials' not in flask.session:
+            return flask.redirect('authorize')
+        return flask.redirect('stats')
+
+    return flask.render_template("login.html", logged_in=False)
 
 
+@app.route('/stats', methods=['POST', 'GET'])
+def user_profile():
+    if flask.request.method == 'POST':
+        # Load credentials from the session.
+        credentials = google.oauth2.credentials.Credentials(
+            **flask.session['credentials'])
+        youtube = googleapiclient.discovery.build(
+            API_SERVICE_NAME, API_VERSION, credentials=credentials)
+
+        if flask.request.form.get('sub') == 'subscriptions':
+            sub = subscriptions.subscribed_channels(youtube)
+            labels, sizes, colors = percentages(sub)
+            return flask.render_template("index.html", pref='sub', labels=json.dumps(labels), sizes=json.dumps(sizes),
+                                         colors=json.dumps(colors))
+        if flask.request.form.get('liked') == 'liked_pl':
+            liked_pl = liked.liked_playlist(youtube)
+            labels, sizes, colors = percentages(liked_pl)
+            return flask.render_template("index.html", pref='liked', labels=json.dumps(labels), sizes=json.dumps(sizes),
+                                         colors=json.dumps(colors))
+        if flask.request.form.get('logout') == 'logout':
+            return flask.redirect('clear')
+        # Save credentials back to session in case access token was refreshed.
+        # ACTION ITEM: In a production app, you likely want to save these
+        #              credentials in a persistent database instead.
+        flask.session['credentials'] = credentials_to_dict(credentials)
+    return flask.render_template("login.html", logged_in=True)
+
+
+@app.route('/authorize')
+def authorize():
+    flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
+        CLIENT_SECRETS_FILE, scopes=SCOPES)
+
+    # The URI created here must exactly match one of the authorized redirect URIs
+    # for the OAuth 2.0 client, which you configured in the API Console. If this
+    # value doesn't match an authorized URI, you will get a 'redirect_uri_mismatch'
+    # error.
+    flow.redirect_uri = flask.url_for('oauth2callback', _external=True)
+
+    authorization_url, state = flow.authorization_url(
+        # Enable offline access so that you can refresh an access token without
+        # re-prompting the user for permission. Recommended for web server apps.
+        access_type='offline',
+        # Enable incremental authorization. Recommended as a best practice.
+        include_granted_scopes='true')
+
+    # Store the state so the callback can verify the auth server response.
+    flask.session['state'] = state
+
+    return flask.redirect(authorization_url)
+
+
+@app.route('/oauth2callback')
+def oauth2callback():
+    # Specify the state when creating the flow in the callback so that it can
+    # verified in the authorization server response.
+    state = flask.session['state']
+
+    flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
+        CLIENT_SECRETS_FILE, scopes=SCOPES, state=state)
+    flow.redirect_uri = flask.url_for('oauth2callback', _external=True)
+
+    # Use the authorization server's response to fetch the OAuth 2.0 tokens.
+    authorization_response = flask.request.url
+    flow.fetch_token(authorization_response=authorization_response)
+
+    # Store credentials in the session.
+    # ACTION ITEM: In a production app, you likely want to save these
+    #              credentials in a persistent database instead.
+    credentials = flow.credentials
+    flask.session['credentials'] = credentials_to_dict(credentials)
+
+    return flask.redirect(flask.url_for('user_profile'))
+
+
+@app.route('/revoke')
+def revoke():
+    if 'credentials' not in flask.session:
+        return ('You need to <a href="/authorize">authorize</a> before ' +
+                'testing the code to revoke credentials.')
+
+    credentials = google.oauth2.credentials.Credentials(
+        **flask.session['credentials'])
+
+    revoke = requests.post('https://oauth2.googleapis.com/revoke',
+                           params={'token': credentials.token},
+                           headers={'content-type': 'application/x-www-form-urlencoded'})
+
+    status_code = getattr(revoke, 'status_code')
+    if status_code == 200:
+        return 'Credentials successfully revoked.'
+    else:
+        return 'An error occurred.'
+
+
+@app.route('/clear')
+def clear_credentials():
+    if 'credentials' in flask.session:
+        del flask.session['credentials']
+    return flask.redirect('/')
+
+
+'''
 @app.route('/callback', methods=['GET', 'POST'])
 def callback():
-    if request.method == 'POST':
+    if flask.request.method == 'POST':
         with open(token_file, "rb") as token:
             cred = pickle.load(token)
         youtube = build("youtube", 'v3', credentials=cred)
@@ -60,7 +184,8 @@ def callback():
                                    colors=json.dumps(colors))
     return render_template("login.html", logged_in=True)
 
-
+'''
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
+    os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
     app.run(debug=True, host='0.0.0.0', port=port)
