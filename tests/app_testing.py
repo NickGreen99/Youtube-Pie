@@ -1,10 +1,14 @@
 import pytest
-from backend.app import app, percentages
+import sys
+
+sys.path.insert(1, '../backend')
+
+from backend.app import app
 
 
 @pytest.fixture
 def webapp_urls():
-    url_list = ['/', '/revoke']
+    url_list = ['/']
     return url_list
 
 

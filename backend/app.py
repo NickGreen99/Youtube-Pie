@@ -1,6 +1,5 @@
 import flask
-import requests
-from backend import liked, subscriptions
+import liked, subscriptions
 import random
 import json
 import os
@@ -49,7 +48,7 @@ def percentages(categories):  # Sort labels and sizes to create better pie chart
                             for j in range(6)]) for i in range(n)]
     for i in range(0, len(sizes)):
         sizes[i] = sizes[i] * 100
-        sizes[i] = round(sizes[i],1)
+        sizes[i] = round(sizes[i], 1)
     sizes, labels = zip(*sorted(zip(sizes, labels)))
     sizes = list(sizes)
     labels = list(labels)
@@ -90,8 +89,7 @@ def user_profile():
                                              sizes=json.dumps(sizes),
                                              colors=json.dumps(colors))
             if flask.request.form.get('logout') == 'logout':
-                print(flask.session['credentials'])
-                return flask.redirect('revoke')
+                return flask.redirect('clear')
             # Save credentials back to session in case access token was refreshed.
             # ACTION ITEM: In a production app, you likely want to save these
             #              credentials in a persistent database instead.
@@ -147,27 +145,6 @@ def oauth2callback():
     flask.session['credentials'] = credentials_to_dict(credentials)
 
     return flask.redirect(flask.url_for('user_profile'))
-
-
-@app.route('/revoke')
-def revoke():
-    if 'credentials' not in flask.session:
-        return ('You need to <a href="/authorize">authorize</a> before ' +
-                'testing the code to revoke credentials.')
-
-    credentials = google.oauth2.credentials.Credentials(
-        **flask.session['credentials'])
-
-    revoke = requests.post('https://oauth2.googleapis.com/revoke',
-                           params={'token': credentials.token},
-                           headers={'content-type': 'application/x-www-form-urlencoded'})
-
-    status_code = getattr(revoke, 'status_code')
-    if status_code == 200:
-        print('Credentials successfully revoked.')
-        return flask.redirect('clear')
-    else:
-        return 'An error occurred.'
 
 
 @app.route('/clear')
