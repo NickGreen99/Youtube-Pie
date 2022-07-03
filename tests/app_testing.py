@@ -1,8 +1,5 @@
 import pytest
 from backend.app import app
-from flask import session
-from backend import authentication
-from googleapiclient.discovery import build
 
 
 @pytest.fixture
