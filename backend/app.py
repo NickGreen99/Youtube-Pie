@@ -49,6 +49,7 @@ def percentages(categories):  # Sort labels and sizes to create better pie chart
                             for j in range(6)]) for i in range(n)]
     for i in range(0, len(sizes)):
         sizes[i] = sizes[i] * 100
+        sizes[i] = round(sizes[i],1)
     sizes, labels = zip(*sorted(zip(sizes, labels)))
     sizes = list(sizes)
     labels = list(labels)
