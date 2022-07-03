@@ -1,7 +1,6 @@
 import flask
 import requests
 import liked, subscriptions
-import pickle
 import random
 import json
 import os
@@ -50,6 +49,11 @@ def percentages(categories):  # Sort labels and sizes to create better pie chart
                             for j in range(6)]) for i in range(n)]
     for i in range(0, len(sizes) - 1):
         sizes[i] = sizes[i] * 100
+    sizes,labels = zip(*sorted(zip(sizes,labels)))
+    sizes = list(sizes)
+    labels = list(labels)
+    sizes.reverse()
+    labels.reverse()
     return labels, sizes, color
 
 
@@ -164,28 +168,8 @@ def clear_credentials():
         del flask.session['credentials']
     return flask.redirect('/')
 
-
-'''
-@app.route('/callback', methods=['GET', 'POST'])
-def callback():
-    if flask.request.method == 'POST':
-        with open(token_file, "rb") as token:
-            cred = pickle.load(token)
-        youtube = build("youtube", 'v3', credentials=cred)
-        if request.form.get('sub') == 'subscriptions':
-            sub = subscriptions.subscribed_channels(youtube)
-            labels, sizes, colors = percentages(sub)
-            return render_template("index.html", pref='sub', labels=json.dumps(labels), sizes=json.dumps(sizes),
-                                   colors=json.dumps(colors))
-        if request.form.get('liked') == 'liked_pl':
-            liked_pl = liked.liked_playlist(youtube)
-            labels, sizes, colors = percentages(liked_pl)
-            return render_template("index.html", pref='liked', labels=json.dumps(labels), sizes=json.dumps(sizes),
-                                   colors=json.dumps(colors))
-    return render_template("login.html", logged_in=True)
-
-'''
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
     os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+    os.environ['OAUTHLIB_RELAX_TOKEN_SCOPE'] = '1'
     app.run(debug=True, host='0.0.0.0', port=port)
