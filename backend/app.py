@@ -1,6 +1,6 @@
 import flask
 import requests
-import liked, subscriptions
+from backend import liked, subscriptions
 import random
 import json
 import os
@@ -47,9 +47,9 @@ def percentages(categories):  # Sort labels and sizes to create better pie chart
     n = len(labels)
     color = ["#" + ''.join([random.choice('0123456789ABCDEF')
                             for j in range(6)]) for i in range(n)]
-    for i in range(0, len(sizes) - 1):
+    for i in range(0, len(sizes)):
         sizes[i] = sizes[i] * 100
-    sizes,labels = zip(*sorted(zip(sizes,labels)))
+    sizes, labels = zip(*sorted(zip(sizes, labels)))
     sizes = list(sizes)
     labels = list(labels)
     sizes.reverse()
@@ -69,30 +69,36 @@ def login():
 
 @app.route('/stats', methods=['POST', 'GET'])
 def user_profile():
-    if flask.request.method == 'POST':
+    try:
         # Load credentials from the session.
         credentials = google.oauth2.credentials.Credentials(
             **flask.session['credentials'])
         youtube = googleapiclient.discovery.build(
             API_SERVICE_NAME, API_VERSION, credentials=credentials)
+        if flask.request.method == 'POST':
+            if flask.request.form.get('sub') == 'subscriptions':
+                sub = subscriptions.subscribed_channels(youtube)
+                labels, sizes, colors = percentages(sub)
+                return flask.render_template("index.html", pref='sub', labels=json.dumps(labels),
+                                             sizes=json.dumps(sizes),
+                                             colors=json.dumps(colors))
+            if flask.request.form.get('liked') == 'liked_pl':
+                liked_pl = liked.liked_playlist(youtube)
+                labels, sizes, colors = percentages(liked_pl)
+                return flask.render_template("index.html", pref='liked', labels=json.dumps(labels),
+                                             sizes=json.dumps(sizes),
+                                             colors=json.dumps(colors))
+            if flask.request.form.get('logout') == 'logout':
+                print(flask.session['credentials'])
+                return flask.redirect('revoke')
+            # Save credentials back to session in case access token was refreshed.
+            # ACTION ITEM: In a production app, you likely want to save these
+            #              credentials in a persistent database instead.
 
-        if flask.request.form.get('sub') == 'subscriptions':
-            sub = subscriptions.subscribed_channels(youtube)
-            labels, sizes, colors = percentages(sub)
-            return flask.render_template("index.html", pref='sub', labels=json.dumps(labels), sizes=json.dumps(sizes),
-                                         colors=json.dumps(colors))
-        if flask.request.form.get('liked') == 'liked_pl':
-            liked_pl = liked.liked_playlist(youtube)
-            labels, sizes, colors = percentages(liked_pl)
-            return flask.render_template("index.html", pref='liked', labels=json.dumps(labels), sizes=json.dumps(sizes),
-                                         colors=json.dumps(colors))
-        if flask.request.form.get('logout') == 'logout':
-            return flask.redirect('clear')
-        # Save credentials back to session in case access token was refreshed.
-        # ACTION ITEM: In a production app, you likely want to save these
-        #              credentials in a persistent database instead.
         flask.session['credentials'] = credentials_to_dict(credentials)
-    return flask.render_template("login.html", logged_in=True)
+        return flask.render_template("login.html", logged_in=True)
+    except KeyError as e:
+        return flask.redirect('/')
 
 
 @app.route('/authorize')
@@ -157,7 +163,8 @@ def revoke():
 
     status_code = getattr(revoke, 'status_code')
     if status_code == 200:
-        return 'Credentials successfully revoked.'
+        print('Credentials successfully revoked.')
+        return flask.redirect('clear')
     else:
         return 'An error occurred.'
 
@@ -167,6 +174,7 @@ def clear_credentials():
     if 'credentials' in flask.session:
         del flask.session['credentials']
     return flask.redirect('/')
+
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
