@@ -15,7 +15,14 @@
 Youtube Pie is a web-based application that creates pie charts based on the user's liked videos playlist and channel subscriptions. 
 
 ### Python & Youtube - API
-For the backend, we used Python 3.9 and more specifically we usde the libraries: flask, google-api-python-client, google-auth-httplib2, google-auth-oauthlib, google-auth as well as the modules random, json, os and pathlib that are inclued in the standard library.
+For the backend, we used Python 3.9 and more specifically we usde the libraries:
+```
+flask, google-api-python-client, google-auth-httplib2, google-auth-oauthlib, google-auth
+```
+as well as the modules:
+```
+random, json, os and pathlib that are inclued in the standard library.
+```
 
 ### HTML & CSS
 
