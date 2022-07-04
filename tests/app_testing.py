@@ -3,7 +3,7 @@ import sys
 
 sys.path.insert(1, '../backend')
 
-from backend.app import app
+from backend.app import app, percentages
 
 
 @pytest.fixture
