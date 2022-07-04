@@ -1,11 +1,3 @@
-from googleapiclient.discovery import build
-from google_auth_oauthlib.flow import InstalledAppFlow
-from google.auth.transport.requests import Request
-import pickle
-import os
-
-
-# Oauth 2.0 authentication
 def subscribed_channels(youtube):
     # Get all account subscriptions (use paging)
     next_page_token = None
@@ -20,6 +12,7 @@ def subscribed_channels(youtube):
         response_subscriptions = request.execute()
         for item in response_subscriptions['items']:
             channels.append(item['snippet'])
+        # limit channels to 50
         if len(channels) >= 50:
             break
         next_page_token = response_subscriptions.get('nextPageToken')
@@ -66,5 +59,4 @@ def subscribed_channels(youtube):
         except Exception as e:
             continue
 
-    # sort dictionary and create list of your preferred categories
     return categoryname
