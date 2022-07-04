@@ -81,22 +81,30 @@ p {
     transform: translate(-50%,-50%);
 }
 
+form {
+    text-align: center;
+}
+
 .likes-btn{
     display: inline-block;
-    margin-left:250px;
+  
     margin-bottom:10px;
 }
 
 .subs-btn{
     display: inline-block;
-    margin-left:250px;
     margin-bottom:10px;
 }
 
+
+
 .logout-btn{
     display: inline-block;
-    margin-left:250px;
+    margin-left:50px;
+    margin-bottom:10px;
 }
+
+
 
 .likes-btn button, .subs-btn button, .logout-btn button{
     width: 300px;

@@ -1,4 +1,3 @@
-# start by pulling the python image
 FROM ubuntu
 
 RUN apt update

@@ -60,14 +60,18 @@
                     }
                 });
                
-            
-
-
-
 
 
 </script>
 {% endblock %}
+
+
+<div class="loading-container" id='loading-container'>
+    <div class="loading-speeding-wheel"></div>
+</div>
+
+
+
 
 
 <div id="change-button">
@@ -79,8 +83,7 @@
                 Based on your liked videos
             </button>
         </div>
-    </form>
-    <form action="/stats" method="post">
+
         <div class="logout-btn">
             <button value="logout" name="logout">
                 <img class="icon" src="../static/images/logout_icon.png">
@@ -99,8 +102,7 @@
             </button>
 
         </div>
-    </form>
-    <form action="/stats" method="post">
+
         <div class="logout-btn">
             <button value="logout" name="logout">
                 <img class="icon" src="../static/images/logout_icon.png">
@@ -108,24 +110,18 @@
             </button>
 
         </div>
-
     </form>
-
 </div>
+
 {% endif %}
 
-<div class="loading-container" id='loading-container'>
-    <div class="loading-speeding-wheel"></div>
-</div>
 
 <script>
     document.getElementById('loading-container').style.display = "none";
-           function loading(){
-                document.getElementById('loading-container').style.display = "block";
-                document.getElementById('change-button').style.display = "none";
-               }
-
-
+    function loading(){
+        document.getElementById('loading-container').style.display = "block";
+        document.getElementById('change-button').style.display = "none";
+        }
 
 </script>
 
