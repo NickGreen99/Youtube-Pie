@@ -1,7 +1,6 @@
-# [Youtube Pie](https://youtubepie.herokuapp.com/)
-
+# Youtube Pie
+https://youtubepie.herokuapp.com/
 [![CodeFactor](https://www.codefactor.io/repository/github/nickgreen99/youtube-pie/badge)](https://www.codefactor.io/repository/github/nickgreen99/youtube-pie)
-
 ## Table of Contents
 1. [Overview](#overview)
 2. [How to run](#howtorun)
