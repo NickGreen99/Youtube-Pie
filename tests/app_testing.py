@@ -3,9 +3,10 @@ import sys
 
 sys.path.insert(1, '../backend')
 
-from backend.app import app
+from backend.app import app, percentages
 
 
+# pytest annotations
 @pytest.fixture
 def webapp_urls():
     url_list = ['/']
@@ -23,18 +24,21 @@ def client():
     return app.test_client()
 
 
+# test for get response with status code 200 (OK)
 def test_webapp_get_request(client, webapp_urls):
     for url in webapp_urls:
         response = client.get(url)
         assert response.status_code == 200
 
 
+# test for get response with status code 302 (Redirect)
 def test_oauth_get_request(client, oauth_urls):
     for url in oauth_urls:
         response = client.get(url)
         assert response.status_code == 302
 
 
+# test that percentages function works properly
 def test_percentages():
     categories = ['Gaming', 'Movies', 'Gaming']
     labels, sizes, colors = percentages(categories)
