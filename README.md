@@ -1,6 +1,6 @@
 # Youtube Pie
 
-[![CodeFactor](https://www.codefactor.io/repository/github/nickgreen99/youtube-api-user-profiling/badge)](https://www.codefactor.io/repository/github/nickgreen99/youtube-api-user-profiling)
+[![CodeFactor](https://www.codefactor.io/repository/github/nickgreen99/youtube-pie/badge)](https://www.codefactor.io/repository/github/nickgreen99/youtube-pie)
 
 This is a web-based application, that enables the user to see his favorite youtube video categories based on their subscriptions and their liked videos.
 
