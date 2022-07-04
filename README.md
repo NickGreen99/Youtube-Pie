@@ -14,7 +14,7 @@
 3. [Containerization & Heroku](#containers)
 
 ## Overview <a name="overview"></a>
-Youtube Pie is a web-based application that creates pie charts based on the user's liked videos playlist and channel subscriptions. Using OAuth as an authorization mechanism, the user gives us access to their youtube public and private data (which we only read and not edit!) which we then retrive using the Youtube-API and then process in order to create the pie chart visualizations. These visualizations are then displayed in a webpage that we created using flask in combination with HTML, CSS and Javascript.
+Youtube Pie is a web-based application that creates pie charts based on the user's liked videos and subscriptions. Using OAuth2 as an authorization mechanism, the user gives us reading access to their Youtube public and private data, which we then retrieve using the Youtube-API and then process in order to create the pie chart visualizations. These visualizations are then displayed in a webpage that we created using flask in combination with HTML, CSS and Javascript.
 
 ## How to install <a name="howtoinstall"></a>
 ## How to run <a name="howtorun"></a>
