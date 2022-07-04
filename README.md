@@ -1,8 +1,6 @@
 # Youtube Pie
 
-[![CodeFactor](https://www.codefactor.io/repository/github/nickgreen99/youtube-api-user-profiling/badge)](https://www.codefactor.io/repository/github/nickgreen99/youtube-api-user-profiling)
-
-This is a web-based application, that enables the user to see his favorite youtube video categories based on their subscriptions and their liked videos.
+[![CodeFactor](https://www.codefactor.io/repository/github/nickgreen99/youtube-pie/badge)](https://www.codefactor.io/repository/github/nickgreen99/youtube-pie)
 
 ## Table of Contents
 * Overview
@@ -14,8 +12,10 @@ This is a web-based application, that enables the user to see his favorite youtu
 ## Web App
 
 ### Overview
+Youtube Pie is a web-based application that creates pie charts based on the user's liked videos playlist and channel subscriptions. 
 
 ### Python & Youtube - API
+For the backend, we used Python 3.9 and more specifically we usde the libraries: flask, google-api-python-client, google-auth-httplib2, google-auth-oauthlib, google-auth as well as the modules random, json, os and pathlib that are inclued in the standard library.
 
 ### HTML & CSS
 

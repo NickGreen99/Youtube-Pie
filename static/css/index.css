@@ -74,15 +74,39 @@ p {
 #change-button{
     display: block;
     position: absolute;
-    width:300px;
+    width:800px;
     height:80px;
     top:  85%;
     left: 50%;
     transform: translate(-50%,-50%);
 }
 
+form {
+    text-align: center;
+}
 
-.change-button button{
+.likes-btn{
+    display: inline-block;
+  
+    margin-bottom:10px;
+}
+
+.subs-btn{
+    display: inline-block;
+    margin-bottom:10px;
+}
+
+
+
+.logout-btn{
+    display: inline-block;
+    margin-left:50px;
+    margin-bottom:10px;
+}
+
+
+
+.likes-btn button, .subs-btn button, .logout-btn button{
     width: 300px;
     height: 80px;
     text-align: center;

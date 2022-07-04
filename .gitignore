@@ -1,11 +1,11 @@
 #ignore venv folder
-venv/
-.vscode/
-.scannerwork/
+venv/*
+#ignore vscode launch configurations
+.vscode/*
+.scannerwork/*
 sonar-scanner-4.7.0.2747-windows
-client_secrets.json
-sotos_secrets.json
+client_secrets/client_secrets.json
+client_secrets/sotos_secrets.json
 sonar-project.properties
-token.pickle
 tests/.pytest_cache
 backend/__pycache__

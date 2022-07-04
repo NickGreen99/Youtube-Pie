@@ -6,7 +6,7 @@
     <title>Youtube Pie</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}"/>
     <link rel="icon" type="image/png" sizes="32x32" href="../static/images/pie_icon.png">
-    
+
 
     <!--link rel="stylesheet" href='../static/css/login.css'>-->
 </head>
@@ -30,7 +30,7 @@
 
     {% if logged_in %}
     <div id="new-buttons">
-        <form action="/callback" method="post">
+        <form action="/stats" method="post">
             <div class="subs-btn">
                 <button value="subscriptions" name="sub" onclick="loading();">
                     <img class="icon" src="../static/images/subs_icon.png">
@@ -46,6 +46,15 @@
                 </button>
 
             </div>
+
+            <div class="logout-btn">
+                <button value="logout" name="logout">
+                    <img class="icon" src="../static/images/logout_icon.png">
+                    Logout
+                </button>
+
+            </div>
+
         </form>
     </div>
     {% else %}
@@ -66,7 +75,7 @@
 
 
 </div>
-   
+
 </div>
 </body>
 <script>

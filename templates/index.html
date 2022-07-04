@@ -3,36 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <title>Youtube Pie</title>
-   <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}"/>-->
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}"/>-->
     <link rel="stylesheet" href='../static/css/index.css'>
     <link rel="icon" type="image/png" sizes="32x32" href="../static/images/pie_icon.png">
 </head>
 <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+        src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
 </script>
 
 
 <body>
 
+<p id="title-text">
+    {% if pref == 'sub' %}
+    Based on your subscriptions
+    {% elif pref == 'liked' %}
+    Based on your liked videos
+    {% endif %}
+</p>
 
-    <div id="content">
+<div id="box">
+    <div class="container">
+        <canvas id="pie-chart"></canvas>
+    </div>
 
-        <p id = "title-text">
-            {% if pref == 'sub' %}
-            Based on your subscriptions
-            {% elif pref == 'liked' %}
-            Based on your liked videos
-            {% endif %}
-        </p>
-
-        <div id = "box">
-                <div class = "container">
-                    <canvas id="pie-chart"></canvas>
-                </div>
-                
-        </div>
-        {% block javascript %}
-            <script type="text/javascript"> 
+</div>
+{% block javascript %}
+<script type="text/javascript">
 
              
      
@@ -63,57 +60,70 @@
                     }
                 });
                
-            
-            </script>
-        {% endblock %}
+
+
+</script>
+{% endblock %}
+
+
+<div class="loading-container" id='loading-container'>
+    <div class="loading-speeding-wheel"></div>
+</div>
 
 
 
 
 
-
-    
-        <div id = "change-button" class = "change-button">
-            {% if pref == 'sub' %}
-            <form action="/callback" method="post">
-                <div class="likes-btn">
-                    <button value="liked_pl" name="liked" onclick="loading();">
-                        <img class="icon" src="../static/images/likes_icon.png">
-                        Based on your liked videos
-                    </button>
-
-                </div>
-            </form>
-            {% else %}
-            <form action="/callback" method="post">
-                <div class="subs-btn">
-                    <button value="subscriptions" name="sub" onclick="loading();">
-                        <img class="icon" src="../static/images/subs_icon.png">
-                        Based on your subscriptions
-                    </button>
-
-                </div>
-            </form>
-            {% endif %}
+<div id="change-button">
+    {% if pref == 'sub' %}
+    <form action="/stats" method="post">
+        <div class="likes-btn">
+            <button value="liked_pl" name="liked" onclick="loading();">
+                <img class="icon" src="../static/images/likes_icon.png">
+                Based on your liked videos
+            </button>
         </div>
 
-        
-    <div class="loading-container" id = 'loading-container'>
-        <div class="loading-speeding-wheel"></div>
-    </div>
-        
+        <div class="logout-btn">
+            <button value="logout" name="logout">
+                <img class="icon" src="../static/images/logout_icon.png">
+                Logout
+            </button>
 
+        </div>
+
+    </form>
+    {% else %}
+    <form action="/stats" method="post">
+        <div class="subs-btn">
+            <button value="subscriptions" name="sub" onclick="loading();">
+                <img class="icon" src="../static/images/subs_icon.png">
+                Based on your subscriptions
+            </button>
+
+        </div>
+
+        <div class="logout-btn">
+            <button value="logout" name="logout">
+                <img class="icon" src="../static/images/logout_icon.png">
+                Logout
+            </button>
+
+        </div>
+    </form>
 </div>
+
+{% endif %}
+
 
 <script>
     document.getElementById('loading-container').style.display = "none";
-           function loading(){
-                document.getElementById('loading-container').style.display = "block";
-                document.getElementById('change-button').style.display = "none";
-               }
+    function loading(){
+        document.getElementById('loading-container').style.display = "block";
+        document.getElementById('change-button').style.display = "none";
+        }
 
 </script>
-
 
 
 </body>
