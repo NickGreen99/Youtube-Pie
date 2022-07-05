@@ -60,20 +60,19 @@ After you have downloaded your client_secrets.json file you need to add it to yo
 Then you need to add these redirect URIs:
 
 ![image](https://user-images.githubusercontent.com/95498852/177291018-195bf2fb-eca0-4f65-9e01-6bc8b6502bbc.png)
+#### Editor
+Also if you want to run the app locally you need to comment out the ```_scheme="https"```
+part in ```flow.redirect_uri``` functions (lines 125 and 147)
 
-Then you can run the app.py file and then open your browser and type the url:
-```
-127.0.0.1:5000
-```
+Then you can run the app.py file and then open your browser and type the url: ```127.0.0.1:5000```
+
 ### Run locally using docker <a name="runlocallydocker"></a>
 After you have pulled the repository you need to run the docker image using:
 ```
 docker run -d -p 5000:5000 nickgreen99/youtubepie
 ```
-and then open your browser and type the url:
-```
-localhost:5000
-```
+and then open your browser and type the url: ```localhost:5000```
+
 ## How to use the web app <a name="howtouse"></a>
 First you need to login using your Google account and bypass all the security warnings (they arise because our web app has not been authorized by Google yet)
 
