@@ -47,7 +47,7 @@ You can visit our webpage to use the application: https://youtubepie.herokuapp.c
 #### Prerequisites
 To run the Python code you'll need:
 * Python3
-* The [pip[(https://pypi.org/project/pip/) package management tool
+* The pip package management tool ( https://pypi.org/project/pip/ )
 * The libraries in the requirements.txt file. In order to install these you do:
 ```
 pip install -r requirements.txt
