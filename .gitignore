@@ -9,3 +9,4 @@ client_secrets/sotos_secrets.json
 sonar-project.properties
 tests/.pytest_cache
 backend/__pycache__
+Procfile
